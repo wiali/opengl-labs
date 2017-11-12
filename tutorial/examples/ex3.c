@@ -2,7 +2,7 @@
 #include <gl\glaux.h>
 #include <math.h>
 
-#define TETR_LIST 1 
+#define TETR_LIST 1
 
 GLfloat light_col[] = {1,1,1};
 float mat_diff1[]={0.8,0.8,0.8};
@@ -10,7 +10,7 @@ float mat_diff2[]={0.0,0.0,0.9};
 float mat_amb[]= {0.2,0.2,0.2};
 float mat_spec[]={0.6,0.6,0.6};
 float shininess=0.7*128, CurAng=0, RingRad=1, RingHeight=0.1;
-GLUquadricObj* QuadrObj; 
+GLUquadricObj* QuadrObj;
 GLuint TexId;
 GLfloat TetrVertex[4][3], TetrNormal[4][3];
 
@@ -24,7 +24,7 @@ void getnorm (float a[3],float b[3],float c[3],float *n)
  n[2]=(b[0]-a[0])*(c[1]-a[1])-(c[0]-a[0])*(b[1]-a[1]);
  /*ќпределение нужного направлени€ нормали: от точки (0,0,0) */
  for (i=0;i<3;i++) mult+=a[i]*n[i];
- if (mult<0) for (j=0;j<3;j++) n[j]=-n[j]; 
+ if (mult<0) for (j=0;j<3;j++) n[j]=-n[j];
 }
 
 /*¬ычисление координат вершин тетраэдра */
@@ -63,10 +63,10 @@ void MakeTetrList()
    {
     glNormal3fv(TetrNormal[i-1]);
     glVertex3fv(TetrVertex[0]);glVertex3fv(TetrVertex[i]);
-    if (i!=3) glVertex3fv(TetrVertex[i+1]);  else glVertex3fv(TetrVertex[1]); 
+    if (i!=3) glVertex3fv(TetrVertex[i+1]);  else glVertex3fv(TetrVertex[1]);
    }
  glNormal3fv(TetrNormal[3]);
- glVertex3fv(TetrVertex[1]);glVertex3fv(TetrVertex[2]);glVertex3fv(TetrVertex[3]); 
+ glVertex3fv(TetrVertex[1]);glVertex3fv(TetrVertex[2]);glVertex3fv(TetrVertex[3]);
   glEnd();
  glEndList();
 }
@@ -91,7 +91,7 @@ void TextureInit()
  glGenTextures(1,&TexId);
  /*«агрузка изображени€ в пам€ть*/
  pImage = auxDIBImageLoad(strFile);
-  
+
  /*Ќачало описани€ свойств текстуры*/
  glBindTexture (GL_TEXTURE_2D,TexId);
  /*—оздание уровней детализации и инициализаци€ текстуры*/
@@ -113,13 +113,13 @@ void TextureInit()
 
 void Init(void)
 {
- InitVertexTetr(); 
+ InitVertexTetr();
  InitNormsTetr();
  MakeTetrList();
  /*ќпределение свойств материала*/
  glMaterialfv (GL_FRONT_AND_BACK,GL_AMBIENT,mat_amb);
  glMaterialfv (GL_FRONT_AND_BACK,GL_SPECULAR,mat_spec);
- glMaterialf  (GL_FRONT,GL_SHININESS,shininess);  
+ glMaterialf  (GL_FRONT,GL_SHININESS,shininess);
  /*ќпределение свойств освещени€*/
  glLightfv(GL_LIGHT0, GL_DIFFUSE, light_col);
  glEnable(GL_LIGHTING);
@@ -152,7 +152,7 @@ void DrawFigures(void)
    единичную матрицу*/
  glLoadIdentity();
  /*ќпредел€ем точку наблюдени€*/
- gluLookAt(0.0, 0.0, 2.5,0.0, 0.0, 0.0, 0.0, 1.0, 0.0); 
+ gluLookAt(0.0, 0.0, 2.5,0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
  /*—охран€ем видовую матрицу, так как дальше будет проводитьс€
   поворот колец*/
  glPushMatrix();

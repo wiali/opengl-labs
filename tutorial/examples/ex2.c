@@ -1,7 +1,7 @@
 
 /*
  *  Программа демонстрирует модель освещения OpenGL
- *  Объектам назначаются разные материалы. 
+ *  Объектам назначаются разные материалы.
  *  В сцене присутствует источник света.
  */
 
@@ -40,13 +40,13 @@ void init (void)
    glLightfv (GL_LIGHT0, GL_DIFFUSE, light_diffuse);
    glLightfv (GL_LIGHT0, GL_SPECULAR, light_specular);
    glLightfv (GL_LIGHT0, GL_POSITION, light_position);
-   
+
    /* включаем освещение и источник света */
    glEnable (GL_LIGHTING);
    glEnable (GL_LIGHT0);
    /* включаем z-буфер */
    glEnable(GL_DEPTH_TEST);
-   
+
 }
 
 /* Функция вызывается при необходимости перерисовки изображения.
@@ -65,9 +65,9 @@ void display (void)
    glMaterialfv (GL_FRONT,GL_DIFFUSE,mat1_dif);
    glMaterialfv (GL_FRONT,GL_SPECULAR,mat1_spec);
    glMaterialf  (GL_FRONT,GL_SHININESS,mat1_shininess);
-   
+
    glPushMatrix ();
-   glTranslatef (-0.75, 0.5, 0.0); 
+   glTranslatef (-0.75, 0.5, 0.0);
    glRotatef (90.0, 1.0, 0.0, 0.0);
    glutSolidTorus (0.275, 0.85, 15, 15);
    glPopMatrix ();
@@ -79,7 +79,7 @@ void display (void)
    glMaterialf  (GL_FRONT,GL_SHININESS,mat2_shininess);
 
    glPushMatrix ();
-   glTranslatef (-0.75, -0.5, 0.0); 
+   glTranslatef (-0.75, -0.5, 0.0);
    glRotatef (270.0, 1.0, 0.0, 0.0);
    glutSolidCone (1.0, 2.0, 15, 15);
    glPopMatrix ();
@@ -91,7 +91,7 @@ void display (void)
    glMaterialf  (GL_FRONT,GL_SHININESS,mat3_shininess);
 
    glPushMatrix ();
-   glTranslatef (0.75, 0.0, -1.0); 
+   glTranslatef (0.75, 0.0, -1.0);
    glutSolidSphere (1.0, 15, 15);
    glPopMatrix ();
 
@@ -106,23 +106,23 @@ void reshape(int w, int h)
 {
    /* устанавливаем размер области вывода равным размеру окна */
    glViewport (0, 0, (GLsizei) w, (GLsizei) h);
-   
+
    /* задаем матрицу проекции с учетом размеров окна */
    glMatrixMode (GL_PROJECTION);
    glLoadIdentity ();
- 
+
    gluPerspective(
 	   40.0, /* угол зрения в градусах */
 	   (GLfloat)w/h, /* коэффициент сжатия окна*/
 	   1,100.0);  /* расстояние до плоскостей отсечения по глубине*/
    glMatrixMode (GL_MODELVIEW);
- 
+
    glLoadIdentity ();
    gluLookAt(
 	   0.0f,0.0f,8.0f, /* положение камеры */
 	   0.0f,0.0f,0.0f, /* центр сцены */
-	   0.0f,1.0f,0.0f); /* положительное направление оси y*/ 
-   
+	   0.0f,1.0f,0.0f); /* положительное направление оси y*/
+
 }
 
 /* Вызывается при нажатии клавиши на клавиатуре
@@ -137,7 +137,7 @@ void keyboard(unsigned char key, int x, int y)
 }
 
 /*  Главный цикл приложения
- *  Создается окно, устанавливается режим 
+ *  Создается окно, устанавливается режим
  *  экрана с буфером глубины
  */
 int main(int argc, char** argv)
@@ -151,5 +151,5 @@ int main(int argc, char** argv)
    glutDisplayFunc(display);
    glutKeyboardFunc (keyboard);
    glutMainLoop();
-   return 0; 
+   return 0;
 }

@@ -7,7 +7,7 @@
 #define BMP_SIZE_FILEHEADER 14  /* размер заголовка BMP-файла */
 #define BMP_SIZE_INFOHEADER 40  /* размер информационного заголовка BMP-файла */
 
-#define BMP_COLOR_BITS_24 24 
+#define BMP_COLOR_BITS_24 24
 
 /* вспомогательные функции */
 /* <<<<<<<<<<<<<<<<<<<<<<< */
@@ -26,45 +26,45 @@ static unsigned int uInt32Number(unsigned char buf[4])
   return numb;
   }
 
-int ReadFileHeader(FILE* f, int* bitmap_pos) 
+int ReadFileHeader(FILE* f, int* bitmap_pos)
   {
   unsigned char header[BMP_SIZE_FILEHEADER];
-  int numb = 0;  
+  int numb = 0;
   int offset = 0;
 
   if (fseek(f, 0, SEEK_SET))
     return 0;
 
- 
+
   numb = fread(header, BMP_SIZE_FILEHEADER, 1, f);
   if (numb != 1)
     return 0;
 
-  if (header[0] != 'B' || header[1] != 'M') 
+  if (header[0] != 'B' || header[1] != 'M')
     return 0;
-  
+
   offset = uInt32Number(header + 10);
-  
+
   numb = fread(header, 4, 1, f);
   if (numb != 1)
     return 0;
-  
+
   if (uInt32Number(header) != 40)
     return 0;
- 
+
   *bitmap_pos  = offset;
   return 1;
   }
- 
+
 /* <<<<<<<<<<<<<<<<<<<<<<< */
 
 /* загрузка BMP-файла */
 
 int LoadBMP(const char* file, IMAGE* out_img)
   {
-  FILE* f; 
+  FILE* f;
   int bitmap_pos;
-  unsigned char buf[40]; 
+  unsigned char buf[40];
   int numb;
   int x_res;
   int y_res;
@@ -72,7 +72,7 @@ int LoadBMP(const char* file, IMAGE* out_img)
   int compression;
   int size_image;
   int n_used_colors;
-  
+
   /* открываем файл */
   f = fopen(file, "rb");
 
@@ -95,7 +95,7 @@ int LoadBMP(const char* file, IMAGE* out_img)
     fclose(f);
     return 0;
     }
-  
+
   numb = fread(buf, 40, 1, f);
   if (numb != 1)
     {
@@ -110,7 +110,7 @@ int LoadBMP(const char* file, IMAGE* out_img)
   compression     = (int)uInt32Number(buf + 16);
   size_image      = (int)uInt32Number(buf + 20);
   n_used_colors   = (int)uInt32Number(buf + 32);
-  
+
   /* читаем только полноцветные файлы */
   if (n_bits == BMP_COLOR_BITS_24)
     {
@@ -144,7 +144,7 @@ int LoadBMP(const char* file, IMAGE* out_img)
 
     if (out_img->data == NULL)
       return 0;
-    
+
     rgb = (unsigned char*)malloc(rgb_size);
 
     /* заполняем данные из файла */
@@ -185,12 +185,12 @@ typedef unsigned short WORD;
 typedef unsigned int  DWORD;
 
 typedef struct tagBITMAPFILEHEADER
-{ 
-  WORD    bfType; 
-  DWORD   bfSize; 
-  WORD    bfReserved1; 
-  WORD    bfReserved2; 
-  DWORD   bfOffBits; 
+{
+  WORD    bfType;
+  DWORD   bfSize;
+  WORD    bfReserved1;
+  WORD    bfReserved2;
+  DWORD   bfOffBits;
 } BITMAPFILEHEADER;
 
 typedef struct tagBITMAPINFOHEADER {

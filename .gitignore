@@ -33,3 +33,5 @@
 
 */build-*
 *user
+
+*.autosave
