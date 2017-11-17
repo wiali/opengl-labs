@@ -32,26 +32,27 @@
 //}
 
 
-//void drawCylinder(void)
-//{
-//    // Очистка буфера кадра
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    // Перенос системы координат, связанной с объектом, на 0.01
-//    //    glTranslated(-0.5, -0.5, -0.5);
-//    glRotated(90, 1, 0, 0);
-//    glRotated(10, 0, 1, 0);
-//    glScaled(0.3, 0.3, 0.3);
-//    glTranslated(0, 0, -1);
-//    // Рисование в начале координат, связанных с объектом, сферы
-//    // радиусом 1, окрашенной в красный цвет
-//    glColor3d(5, 5, 0);
-////    glutSolidCylinder(1, 3, 15, 15);
-//    glutWireCylinder(1, 3, 15, 15);
+/*
+void drawCylinder(void)
+{
+    // Очистка буфера кадра
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Перенос системы координат, связанной с объектом, на 0.01
+    //    glTranslated(-0.5, -0.5, -0.5);
+    glRotated(90, 1, 0, 0);
+    glRotated(10, 0, 1, 0);
+    glScaled(0.3, 0.3, 0.3);
+    glTranslated(0, 0, -1);
+    // Рисование в начале координат, связанных с объектом, сферы
+    // радиусом 1, окрашенной в красный цвет
+    glColor3d(5, 5, 0);
+//    glutSolidCylinder(1, 3, 15, 15);
+    glutWireCylinder(1, 3, 15, 15);
 
-//    // Копирование содержимого буфера кадра на экран
-//    glutSwapBuffers();
-//}
-
+    // Копирование содержимого буфера кадра на экран
+    glutSwapBuffers();
+}
+*/
 //void drawSphere(void)
 //{
 //    // Очистка буфера кадра

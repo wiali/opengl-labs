@@ -4,12 +4,11 @@
 
 class MainWindow
 {
-private:
-    MainWindow(int argc, char *argv[]);
+
 
 public:
 //    static MainWindow& getInstance();
-
+    MainWindow(int argc, char *argv[]);
     static void init();
     static void display();
     static void resize(int w, int h);

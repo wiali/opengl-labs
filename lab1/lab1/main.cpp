@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +23,8 @@ int main(int argc, char *argv[])
     }
 */
 
+    MainWindow window(argc, argv);
+    window.init();
 
 
 
