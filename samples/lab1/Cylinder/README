@@ -1,0 +1,48 @@
+Graham Fletcher (grahamfletchergt@gmail.com)
+30 January 2012
+
+
+
+1. INTRODUCTION
+
+Thank you for taking the time to review my code sample. This file gives a brief overview of what steps should be followed to see a proper demonstration of the Cylinder program. While the assignment welcomed the use of a GUI, it did not specify any specific UI toolkit. I decided to use Qt. If you don't have Qt installed, you won't be able to compile and run the program, but you can find several screenshots of the GUI in the "screenshots" directory.
+
+This project was tracked using Git and can be cloned using the following command:
+
+    $git clone git://github.com/grahamfletcher/Cylinder.git
+
+It can also be downloaded as a ZIP file:
+
+    https://github.com/grahamfletcher/Cylinder/zipball/master
+
+
+2. ASSIGNMENT DETAILS
+
+Here are the details of the assignment, as specified in an email from Ms. Fritz:
+
+"Please provide a code sample that demonstrates your knowledge of OO programming in a simple C++ application.  Show what you consider a maintainable and extensible design.  Include any tests you may have written. 
+ 
+For example: Write an application that computes the volume of a right circular cylinder from the user’s radius and height inputs from the command line or through a GUI."
+
+
+3. BUILDING
+
+Since no UI framework was specified in the assignment, I decided to use Qt with the OpenGL module. Assuming you have Qt installed, you can build the project following these steps:
+
+    $qmake
+    $make
+
+
+4. TESTING
+
+To test the output of the program, you can either enter your own input or run the included test script by invoking either of the following commands:
+
+    $make test
+    $./test.sh
+
+Two of the tests should fail and respond by printing the usage for the program.
+
+For more information on how to use the program, run the following command:
+
+    $bin/cylinder --help
+
