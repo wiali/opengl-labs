@@ -1,6 +1,6 @@
 project(lab1)
 cmake_minimum_required(VERSION 2.8)
-
+#set (CMAKE_CXX_STANDARD 11)
 #find_package(OpenGL REQUIRED)
 
 #SET(GCC_COVERAGE_COMPILE_FLAGS "-fprofile-arcs -ftest-coverage")

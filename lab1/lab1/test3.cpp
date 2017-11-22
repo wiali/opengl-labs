@@ -1,3 +1,4 @@
+/*
 #include <GL/glut.h>
 #include<stdbool.h>
 #include<stdio.h>
@@ -140,3 +141,6 @@ int main3113(int argc, char *argv[])
 
    return 0;
 }
+*/
+
+

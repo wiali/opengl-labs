@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "mainwindow.h"
 
-int main(int argc, char *argv[])
+int mainp(int argc, char *argv[])
 {
 /*
     int task = 1;

@@ -23,6 +23,9 @@ private:
     static float _yrot;
 
     static void drawCylinder();
+    static void drawSphere();
+    static void torus();
+//    static void
 };
 
 #endif // MAINWINDOW_H

@@ -125,6 +125,63 @@ void MainWindow::drawCylinder()
     glEnd();
 }
 
+void MainWindow::drawSphere()
+{
+    double r = 1;
+    int lats = 10;
+    int longs = 10;
+    int i, j;
+    for(i = 0; i <= lats; i++) {
+        double lat0 = M_PI * (-0.5 + (double) (i - 1) / lats);
+        double z0  = sin(lat0);
+        double zr0 =  cos(lat0);
+
+        double lat1 = M_PI * (-0.5 + (double) i / lats);
+        double z1 = sin(lat1);
+        double zr1 = cos(lat1);
+
+        glBegin(GL_LINE_LOOP);
+        for(j = 0; j <= longs; j++) {
+            double lng = 2 * M_PI * (double) (j - 1) / longs;
+            double x = cos(lng);
+            double y = sin(lng);
+
+            glNormal3f(x * zr0, y * zr0, z0);
+            glVertex3f(x * zr0, y * zr0, z0);
+            glNormal3f(x * zr1, y * zr1, z1);
+            glVertex3f(x * zr1, y * zr1, z1);
+        }
+        glEnd();
+    }
+}
+
+void MainWindow::torus()
+{
+    int numc = 3;
+    int numt = 3;
+
+    int i, j, k;
+    double s, t, x, y, z, twopi;
+    double PI = 3.14;
+    twopi = 2 * PI;
+    for (i = 0; i < numc; i++) {
+        glBegin(GL_LINE_LOOP);
+        for (j = 0; j <= numt; j++) {
+            for (k = 1; k >= 0; k--) {
+                s = (i + k) % numc + 0.5;
+                t = j % numt;
+
+                x = (1+.1*cos(s*twopi/numc))*cos(t*twopi/numt);
+                y = (1+.1*cos(s*twopi/numc))*sin(t*twopi/numt);
+                z = .1 * sin(s * twopi / numc);
+                glVertex3f(x, y, z);
+            }
+        }
+        glEnd();
+    }
+
+}
+
 void MainWindow::display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -138,7 +195,9 @@ void MainWindow::display()
     glRotatef(_xrot, 1.0f, 0.0f, 0.0f);
     glRotatef(_yrot, 0.0f, 1.0f, 0.0f);
 
-    drawCylinder();
+    //drawCylinder();
+//    drawSphere();
+    torus();
 
     glFlush();
     glutSwapBuffers();
