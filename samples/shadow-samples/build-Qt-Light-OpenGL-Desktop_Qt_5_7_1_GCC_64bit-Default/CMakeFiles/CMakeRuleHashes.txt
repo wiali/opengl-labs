@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+ae799c45835a4be1de8765e83644636e src/moc_lighting.cpp

@@ -1,0 +1,10 @@
+-I/home/roman/IDEAs/Qt/5.7/gcc_64/include
+-I/home/roman/IDEAs/Qt/5.7/gcc_64/include/QtWidgets
+-I/home/roman/IDEAs/Qt/5.7/gcc_64/include/QtGui
+-I/home/roman/IDEAs/Qt/5.7/gcc_64/include/QtCore
+-I/home/roman/IDEAs/Qt/5.7/gcc_64/./mkspecs/linux-g++
+-I/usr/include
+-I/home/roman/dev/opengl-labs/shadow-samples/Qt-Light-OpenGL/src
+-o
+/home/roman/dev/opengl-labs/shadow-samples/build-Qt-Light-OpenGL-Desktop_Qt_5_7_1_GCC_64bit-Default/src/moc_lighting.cpp
+/home/roman/dev/opengl-labs/shadow-samples/Qt-Light-OpenGL/src/lighting.h

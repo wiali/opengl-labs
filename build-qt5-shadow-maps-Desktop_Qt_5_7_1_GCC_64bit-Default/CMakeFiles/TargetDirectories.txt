@@ -1,6 +1,0 @@
-/home/roman/dev/opengl-labs/build-qt5-shadow-maps-Desktop_Qt_5_7_1_GCC_64bit-Default/CMakeFiles/edit_cache.dir
-/home/roman/dev/opengl-labs/build-qt5-shadow-maps-Desktop_Qt_5_7_1_GCC_64bit-Default/CMakeFiles/rebuild_cache.dir
-/home/roman/dev/opengl-labs/build-qt5-shadow-maps-Desktop_Qt_5_7_1_GCC_64bit-Default/sources/CMakeFiles/edit_cache.dir
-/home/roman/dev/opengl-labs/build-qt5-shadow-maps-Desktop_Qt_5_7_1_GCC_64bit-Default/sources/CMakeFiles/shadowmaps.dir
-/home/roman/dev/opengl-labs/build-qt5-shadow-maps-Desktop_Qt_5_7_1_GCC_64bit-Default/sources/CMakeFiles/rebuild_cache.dir
-/home/roman/dev/opengl-labs/build-qt5-shadow-maps-Desktop_Qt_5_7_1_GCC_64bit-Default/sources/CMakeFiles/shadowmaps_automoc.dir
