@@ -190,14 +190,14 @@ void MainWindow::display()
     gluLookAt(
                 0.0f, 0.0f, 20.0f,
                 0.0f, 0.0f, 0.0f,
-                0.0f, 1.0f, 0.0f);
+                1.0f, 1.0f, 1.0f);
 
     glRotatef(_xrot, 1.0f, 0.0f, 0.0f);
     glRotatef(_yrot, 0.0f, 1.0f, 0.0f);
 
-    //drawCylinder();
+    drawCylinder();
 //    drawSphere();
-    torus();
+    // torus();
 
     glFlush();
     glutSwapBuffers();
