@@ -1,18 +1,17 @@
+
 #include <cstdio>
 #include <cmath>
-// #include "task.h"
-// #include "mainwindow.h"
 #include <stdlib.h>
-// #if defined(__APPLE__)
-//#include <OpenGL/gl.h>
+
+#ifdef __APPLE__
 #include <GLUT/glut.h>
-//#include <OpenGL/glu.h>
-// #else
-//#include <OpenGL/gl3.h>
-//#define __gl_h_
-// #include <GLUT/glut.h>
-#  include <OpenGL/gl.h>
-//#  include <OpenGL/glext.h>
+#include <OpenGL/gl.h>
+#endif
+
+#ifdef __linux__
+// macro for linux
+#endif
+
 
 double rotate_y = 0;
 double rotate_x = 0;
@@ -24,9 +23,6 @@ double move_octahedron = 0;
 
 void wireCylinder(GLfloat r, GLfloat h) {
 
-    // glLineWidth(2.5);
-
-
     // red
     glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_LINES);
@@ -34,15 +30,15 @@ void wireCylinder(GLfloat r, GLfloat h) {
     glVertex3f(30, 0, 0);
     glEnd();
 
-    // puepple
-    glColor3f(10.0, 0.0, 100.0);
+    // green
+    glColor3f(0.0, 1.0, 0.0);
     glBegin(GL_LINES);
     glVertex3f(0.0, 0.0, 0.0);
     glVertex3f(0, 30, 0);
     glEnd();
 
-    // white
-    glColor3f(1.0, 1.0, 1.0);
+    // blue
+    glColor3f(0.0, 0.0, 1.0);
     glBegin(GL_LINES);
     glVertex3f(0.0, 0.0, 0.0);
     glVertex3f(0, 0, 30);
@@ -177,7 +173,7 @@ int main(int argc, char* argv[]) {
 
     glutInit(&argc, argv);
     //glewInit();
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitDisplayMode(/*GLUT_DOUBLE | */GLUT_RGBA /*| GLUT_DEPTH*/);
     glutInitWindowSize(800, 800);
     glutCreateWindow("Cube + Octahedron");
     // glEnable(GL_DEPTH_TEST);
