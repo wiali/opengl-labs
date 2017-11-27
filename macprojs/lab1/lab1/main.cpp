@@ -22,120 +22,138 @@ double move_octahedron = 0;
 
 
 void wireCylinder(GLfloat r, GLfloat h) {
-
+    
+    //    OX, OY, OZ
     // red
-    glColor3f(1.0, 0.0, 0.0);
+    glColor3f(1.f, 0.f, 0.f);
     glBegin(GL_LINES);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(30, 0, 0);
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(1.f, 0.f, 0.f);
     glEnd();
-
+    
     // green
-    glColor3f(0.0, 1.0, 0.0);
+    glColor3f(0.f, 1.f, 0.f);
     glBegin(GL_LINES);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0, 30, 0);
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(0.f, 0.5f, 0.f);
     glEnd();
-
+    
     // blue
-    glColor3f(0.0, 0.0, 1.0);
+    glColor3f(0.f, 0.f, 1.f);
     glBegin(GL_LINES);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0, 0, 30);
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(0.f, 0.f, 1.f);
     glEnd();
-
-
-    // // glColor3d(10, 1, 1);
-    // glBegin(GL_LINES);
-    // GLfloat x              = 0.0;
-    // GLfloat y              = 0.0;
-    // GLfloat angle          = 0.0;
-    // GLfloat angle_stepsize = 0.5;
+    
+    //    cylinder
+    glColor3d(1.f, 1.f, 0.f);
+    glRotatef(75.f, 1.f, 0.f, 0.f);
+    glBegin(GL_LINES);
+    GLfloat x = 0.f;
+    GLfloat y = 0.f;
+    GLfloat angle = 0.f;
+    GLfloat angle_stepsize = 0.5f;
     //
-    // while (angle < 2 * M_PI) {
-    //     x = r * cos(angle);
-    //     y = r * sin(angle);
-    //     glVertex3f(x, y , h);
-    //     glVertex3f(x, y , 0.0);
-    //     angle += angle_stepsize;
-    // }
-    // glVertex3f(r, 0.0, h);
-    // glVertex3f(r, 0.0, 0.0);
-    // glEnd();
-    //
-    // /** Draw the circle on top of cylinder */
-    // // glColor3d(10, 1, 1);
-    // glBegin(GL_LINE_LOOP);
-    // angle = 0.0;
-    // while( angle < 2*M_PI ) {
-    //     x = r * cos(angle);
-    //     y = r * sin(angle);
-    //     glVertex3f(x, y , h);
-    //     angle = angle + angle_stepsize;
-    // }
-    // glVertex3f(r, 0.0, h);
-    // glEnd();
+    while (angle < 2 * M_PI) {
+        x = r * cos(angle);
+        y = r * sin(angle);
+        glVertex3f(x, y , -h / 2);
+        glVertex3f(x, y , h / 2);
+        angle += angle_stepsize;
+    }
+    glVertex3f(r, 0.f, -h / 2);
+    glVertex3f(r, 0.f, h / 2);
+    glEnd();
+    
+    /** Draw the circle on top of cylinder */
+    glBegin(GL_LINE_LOOP);
+    angle = 0.f;
+    
+    while (angle < 2 * M_PI) {
+        x = r * cos(angle);
+        y = r * sin(angle);
+        glVertex3f(x, y, h / 2);
+        angle = angle + angle_stepsize;
+    }
+    glVertex3f(r, 0.f, h / 2);
+    glEnd();
+    
+    glBegin(GL_LINE_LOOP);
+    angle = 0.f;
+    
+    while (angle < 2 * M_PI) {
+        x = r * cos(angle);
+        y = r * sin(angle);
+        glVertex3f(x, y, -h / 2);
+        angle = angle + angle_stepsize;
+    }
+    glVertex3f(r, 0.f, -h / 2);
+    glEnd();
 }
 
 void wireSphere(float r) {
-
+    
 }
 
 void display(void) {
-
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-
-    // gluLookAt(
-    //             0.0f, 0.0f, 20.0f,
-    //             0.0f, 0.0f, 0.0f,
-    //             0.0f, 1.0f, 0.0f);
-
-    wireCylinder(1.f, 3.f);
-    // glRotatef(0, 3.0, 0.0, 10.0);
-    // glRotatef(0, 0.0, 3.0, 0.0);
-    // glColor3f(1.0, 1.0, 1.0);
-    // glTranslatef(10, 0.0, 10.0);
-
+    
+    glScalef(0.5f, 0.5f, 0.5f);
+    //    glOrtho(-2.0, 2.0, -2.0, 2.0, 2.0, -2.0);
+    //
+    //    // left, right, up, down
+    //    glRotatef(rotate_x, 1.0, 0.0, 0.0);
+    //    glRotatef(rotate_y, 0.0, 1.0, 0.0);
+    //    gluPerspective(
+    //                   40.0, /* угол зрения в градусах */
+    //                   (GLfloat)1, /* коэффициент сжатия окна */
+    //                   1,100.0);
+    
+    //    gluLookAt(
+    //              1.f, 1.f, 1.f, // eye position
+    //              0.f, 0.f, 0.f,  // scene center
+    //              0.f, 0.f, 1.f); // up vector (y)
+    //
+    wireCylinder(0.5f, 1.f);
+    // glRotatef(0, 3.f, 0.f, 10.f);
+    // glRotatef(0, 0.f, 3.f, 0.f);
+    // glColor3f(1.f, 1.f, 1.f);
+    // glTranslatef(10, 0.f, 10.f);
+    
     // glLineWidth(2.5);
-    // glColor3f(1.0, 0.0, 0.0);
+    // glColor3f(1.f, 0.f, 0.f);
     // glBegin(GL_LINES);
-    // glVertex3f(0.0, 0.0, 0.0);
+    // glVertex3f(0.f, 0.f, 0.f);
     // glVertex3f(15, 0, 0);
     // glEnd();
-
-    // glOrtho(-2.0, 2.0, -2.0, 2.0, 2.0, -2.0);
-
-
-    // // gluLookAt(
-    // //             0.0f, 0.0f, 20.0f,
-    // //             0.0f, 0.0f, 0.0f,
-    // //             1.0f, 1.0f, 1.0f);
-    // glOrtho(-2.0, 2.0, -2.0, 2.0, 2.0, -2.0);
-    //
+    
+    //     glOrtho(-2.f, 2.f, -2.f, 2.f, 2.f, -2.f);
+    
     //
     // // // left, right, up, down
-    // glRotatef(0, 1.0, 0.0, 0.0);
-    // glRotatef(0, 0.0, 1.0, 0.0);
+    // glRotatef(0, 1.f, 0.f, 0.f);
+    // glRotatef(0, 0.f, 1.f, 0.f);
     //
     //
     //
     // // cube (f2, f3)
-    // glColor3f(1.0, 1.0, 1.0);
-    // glTranslatef(0, 0.0, 0.0);
+    // glColor3f(1.f, 1.f, 1.f);
+    // glTranslatef(0, 0.f, 0.f);
     // wireCylinder(1.f, 3.f);
     //
     // // // octahedron (f1)
-    // glColor3f(0.0, 1.0, 0.0);
-    // glRotatef(0, 1.0, 0.0, 0.0);
-    // glTranslatef(1.0, 0.5, 0.5);
-    // glTranslatef(0, 0.0, 0.0);
+    // glColor3f(0.f, 1.f, 0.f);
+    // glRotatef(0, 1.f, 0.f, 0.f);
+    // glTranslatef(1.f, 0.5, 0.5);
+    // glTranslatef(0, 0.f, 0.f);
     // glScalef(0.5, 0.5, 0.5);
     // // glutWireOctahedron();
-
+    
     glFlush();
     glutSwapBuffers();
-
+    
 }
 
 // void specialKeys(int key, int x, int y) {
@@ -170,18 +188,18 @@ void display(void) {
 // }
 
 int main(int argc, char* argv[]) {
-
+    
     glutInit(&argc, argv);
     //glewInit();
     glutInitDisplayMode(/*GLUT_DOUBLE | */GLUT_RGBA /*| GLUT_DEPTH*/);
     glutInitWindowSize(800, 800);
     glutCreateWindow("Cube + Octahedron");
     // glEnable(GL_DEPTH_TEST);
-
+    
     glutDisplayFunc(display);
     // glutSpecialFunc(specialKeys);
-
+    
     glutMainLoop();
-
+    
     return 0;
 }
