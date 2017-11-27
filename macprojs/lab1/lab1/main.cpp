@@ -24,27 +24,29 @@ double move_octahedron = 0;
 void wireCylinder(GLfloat r, GLfloat h) {
     
     //    OX, OY, OZ
-    // red
+    // red OX
+    glRotatef(-10.f, 0.f, 1.f, 0.f);
     glColor3f(1.f, 0.f, 0.f);
     glBegin(GL_LINES);
     glVertex3f(0.f, 0.f, 0.f);
     glVertex3f(1.f, 0.f, 0.f);
     glEnd();
     
-    // green
+    // green OY
     glColor3f(0.f, 1.f, 0.f);
     glBegin(GL_LINES);
     glVertex3f(0.f, 0.f, 0.f);
     glVertex3f(0.f, 0.5f, 0.f);
     glEnd();
     
-    // blue
+    // blue OZ
     glColor3f(0.f, 0.f, 1.f);
     glBegin(GL_LINES);
     glVertex3f(0.f, 0.f, 0.f);
     glVertex3f(0.f, 0.f, 1.f);
     glEnd();
     
+    /*
     //    cylinder
     glColor3d(1.f, 1.f, 0.f);
     glRotatef(75.f, 1.f, 0.f, 0.f);
@@ -65,7 +67,7 @@ void wireCylinder(GLfloat r, GLfloat h) {
     glVertex3f(r, 0.f, h / 2);
     glEnd();
     
-    /** Draw the circle on top of cylinder */
+    
     glBegin(GL_LINE_LOOP);
     angle = 0.f;
     
@@ -89,6 +91,7 @@ void wireCylinder(GLfloat r, GLfloat h) {
     }
     glVertex3f(r, 0.f, -h / 2);
     glEnd();
+     */
 }
 
 void wireSphere(float r) {
