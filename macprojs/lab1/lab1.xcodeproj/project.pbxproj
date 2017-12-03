@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3061EF721FD46CA3006177AA /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF6E1FD46CA2006177AA /* image_DXT.c */; };
+		3061EF731FD46CA3006177AA /* image_DXT.h in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF6F1FD46CA3006177AA /* image_DXT.h */; };
+		3061EF741FD46CA3006177AA /* image_helper.h in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF701FD46CA3006177AA /* image_helper.h */; };
+		3061EF751FD46CA3006177AA /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF711FD46CA3006177AA /* image_helper.c */; };
+		3061EF7B1FD46CB6006177AA /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF761FD46CB5006177AA /* SOIL.c */; };
+		3061EF7C1FD46CB6006177AA /* stb_image_aug.h in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF771FD46CB5006177AA /* stb_image_aug.h */; };
+		3061EF7D1FD46CB6006177AA /* stbi_DDS_aug_c.h in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF781FD46CB5006177AA /* stbi_DDS_aug_c.h */; };
+		3061EF7E1FD46CB6006177AA /* SOIL.h in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF791FD46CB6006177AA /* SOIL.h */; };
+		3061EF7F1FD46CB6006177AA /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF7A1FD46CB6006177AA /* stb_image_aug.c */; };
 		30EB30291FCC13C10023D008 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EB30281FCC13C10023D008 /* main.cpp */; };
 		30EB30321FCC140A0023D008 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EB30301FCC13D20023D008 /* OpenGL.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		30EB30331FCC14160023D008 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EB30311FCC13DD0023D008 /* GLUT.framework */; };
@@ -16,7 +25,7 @@
 		30EB30231FCC13C10023D008 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
+			dstPath = /usr/share/man/man1;
 			dstSubfolderSpec = 0;
 			files = (
 			);
@@ -25,6 +34,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3061EF6E1FD46CA2006177AA /* image_DXT.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = image_DXT.c; path = lab1/soil/image_DXT.c; sourceTree = "<group>"; };
+		3061EF6F1FD46CA3006177AA /* image_DXT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = image_DXT.h; path = lab1/soil/image_DXT.h; sourceTree = "<group>"; };
+		3061EF701FD46CA3006177AA /* image_helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = image_helper.h; path = lab1/soil/image_helper.h; sourceTree = "<group>"; };
+		3061EF711FD46CA3006177AA /* image_helper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = image_helper.c; path = lab1/soil/image_helper.c; sourceTree = "<group>"; };
+		3061EF761FD46CB5006177AA /* SOIL.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = SOIL.c; path = lab1/soil/SOIL.c; sourceTree = "<group>"; };
+		3061EF771FD46CB5006177AA /* stb_image_aug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = lab1/soil/stb_image_aug.h; sourceTree = "<group>"; };
+		3061EF781FD46CB5006177AA /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = lab1/soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
+		3061EF791FD46CB6006177AA /* SOIL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SOIL.h; path = lab1/soil/SOIL.h; sourceTree = "<group>"; };
+		3061EF7A1FD46CB6006177AA /* stb_image_aug.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = stb_image_aug.c; path = lab1/soil/stb_image_aug.c; sourceTree = "<group>"; };
+		3061EF801FD46CEA006177AA /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = lab1/soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
+		3061EF811FD46D16006177AA /* stb_image_aug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = lab1/soil/stb_image_aug.h; sourceTree = "<group>"; };
 		30EB30251FCC13C10023D008 /* lab1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lab1; sourceTree = BUILT_PRODUCTS_DIR; };
 		30EB30281FCC13C10023D008 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		30EB30301FCC13D20023D008 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -47,6 +67,17 @@
 		30EB301C1FCC13C10023D008 = {
 			isa = PBXGroup;
 			children = (
+				3061EF811FD46D16006177AA /* stb_image_aug.h */,
+				3061EF801FD46CEA006177AA /* stbi_DDS_aug_c.h */,
+				3061EF761FD46CB5006177AA /* SOIL.c */,
+				3061EF791FD46CB6006177AA /* SOIL.h */,
+				3061EF7A1FD46CB6006177AA /* stb_image_aug.c */,
+				3061EF771FD46CB5006177AA /* stb_image_aug.h */,
+				3061EF781FD46CB5006177AA /* stbi_DDS_aug_c.h */,
+				3061EF6E1FD46CA2006177AA /* image_DXT.c */,
+				3061EF6F1FD46CA3006177AA /* image_DXT.h */,
+				3061EF711FD46CA3006177AA /* image_helper.c */,
+				3061EF701FD46CA3006177AA /* image_helper.h */,
 				30EB30271FCC13C10023D008 /* lab1 */,
 				30EB30261FCC13C10023D008 /* Products */,
 				30EB302F1FCC13D20023D008 /* Frameworks */,
@@ -135,6 +166,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3061EF7C1FD46CB6006177AA /* stb_image_aug.h in Sources */,
+				3061EF7D1FD46CB6006177AA /* stbi_DDS_aug_c.h in Sources */,
+				3061EF7B1FD46CB6006177AA /* SOIL.c in Sources */,
+				3061EF7E1FD46CB6006177AA /* SOIL.h in Sources */,
+				3061EF7F1FD46CB6006177AA /* stb_image_aug.c in Sources */,
+				3061EF721FD46CA3006177AA /* image_DXT.c in Sources */,
+				3061EF731FD46CA3006177AA /* image_DXT.h in Sources */,
+				3061EF741FD46CA3006177AA /* image_helper.h in Sources */,
+				3061EF751FD46CA3006177AA /* image_helper.c in Sources */,
 				30EB30291FCC13C10023D008 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

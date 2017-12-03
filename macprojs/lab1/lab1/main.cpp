@@ -1,23 +1,23 @@
-
+//#include "SOIL.h"
 #include <cstdio>
 #include <cmath>
 #include <stdlib.h>
-
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #include <OpenGL/gl.h>
 #endif
-
 #ifdef __linux__
 // macro for linux
 #endif
-
+//#include "../../../external/SOIL/src/SOIL.h"
+//#include "readtexture.h"
+#include "soil/SOIL.h"
 
 double rotate_y = 0;
 double rotate_x = 0;
 
-double rotate_octahedron = 0;
-double move_cube = 0;
+double rotata_scene = 0;
+double move_sphere = 0;
 double move_octahedron = 0;
 
 void wireCylinder(float r, float h, int nsides, int nlongs) {
@@ -43,7 +43,6 @@ void wireCylinder(float r, float h, int nsides, int nlongs) {
 
 void wireCylinder2(float r, float h, float ang_step) {
 
-    glColor3d(1.f, 1.f, 0.f);
     glBegin(GL_LINES);
     float x = 0.f;
     float y = 0.f;
@@ -131,15 +130,15 @@ void specialKeys(int key, int x, int y) {
         rotate_x -= 5;
 
     else if (key == GLUT_KEY_F1)
-        rotate_octahedron += 5;
+        rotata_scene += 5;
 
     else if (key == GLUT_KEY_F2) {
-        move_cube -= 0.1;
+        move_sphere -= 0.1;
 //        move_octahedron += 0.1;
     }
 
     else if (key == GLUT_KEY_F3) {
-        move_cube += 0.1;
+        move_sphere += 0.1;
         move_octahedron -= 0.1;
     }
 
@@ -160,25 +159,36 @@ void handleKeys() {
     //              0.f, 0.f, 0.f,  // scene center
     //              0.f, 0.f, 1.f); // up vector (y)
     //
-    glRotatef(rotate_octahedron, 1.0, 0.0, 0.0);
+    glRotatef(rotata_scene, 1.0, 0.0, 0.0);
 }
 
 void display(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-
+    
     //glScalef(0.5f, 0.5f, 0.5f);
     glOrtho(-2.0, 2.0, -2.0, 2.0, 2.0, -2.0);
 
+    
+    GLuint single_tex_cube = SOIL_load_OGL_single_cubemap
+    (
+     "split_cubemap.png",
+     "EWUDNS",
+     SOIL_LOAD_AUTO,
+     SOIL_CREATE_NEW_ID,
+     SOIL_FLAG_MIPMAPS
+     );
+    
     handleKeys();
-
+    
     drawAxis();
-//    wireCylinder(0.5f, 1.f, 5, 5);
-//    glTranslatef(move_cube, 0.0, 0.0);
-    wireCylinder2(0.5f, 1.f, 0.5);
-    glTranslatef(move_cube, 0.f, 0.f);
-    wireSphere(0.5f);
-
+//    wireCylinder2(0.5f, 1.f, 0.5);
+//    glTranslatef(move_sphere, 0.f, 0.f);
+//    wireSphere(0.5f);
+    glColor3d(1.f, 1.f, 0.f);
+    glutWireTorus(0.2f, 0.5f, 10, 10);
+    glutWireOctahedron();
+    
     glFlush();
     glutSwapBuffers();
 }
