@@ -16,7 +16,7 @@
 		3061EF7D1FD46CB6006177AA /* stbi_DDS_aug_c.h in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF781FD46CB5006177AA /* stbi_DDS_aug_c.h */; };
 		3061EF7E1FD46CB6006177AA /* SOIL.h in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF791FD46CB6006177AA /* SOIL.h */; };
 		3061EF7F1FD46CB6006177AA /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = 3061EF7A1FD46CB6006177AA /* stb_image_aug.c */; };
-		30EB30291FCC13C10023D008 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EB30281FCC13C10023D008 /* main.cpp */; };
+		3061EF881FD4AC25006177AA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EB30281FCC13C10023D008 /* main.cpp */; };
 		30EB30321FCC140A0023D008 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EB30301FCC13D20023D008 /* OpenGL.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		30EB30331FCC14160023D008 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EB30311FCC13DD0023D008 /* GLUT.framework */; };
 /* End PBXBuildFile section */
@@ -166,6 +166,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3061EF881FD4AC25006177AA /* main.cpp in Sources */,
 				3061EF7C1FD46CB6006177AA /* stb_image_aug.h in Sources */,
 				3061EF7D1FD46CB6006177AA /* stbi_DDS_aug_c.h in Sources */,
 				3061EF7B1FD46CB6006177AA /* SOIL.c in Sources */,
@@ -175,7 +176,6 @@
 				3061EF731FD46CA3006177AA /* image_DXT.h in Sources */,
 				3061EF741FD46CA3006177AA /* image_helper.h in Sources */,
 				3061EF751FD46CA3006177AA /* image_helper.c in Sources */,
-				30EB30291FCC13C10023D008 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
