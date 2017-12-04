@@ -34,6 +34,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		302E5B0E1FD5844600D780B9 /* task1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = task1.h; sourceTree = "<group>"; };
+		302E5B0F1FD5845D00D780B9 /* task2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = task2.h; sourceTree = "<group>"; };
+		302E5B101FD5846600D780B9 /* task3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = task3.h; sourceTree = "<group>"; };
+		302E5B111FD5847500D780B9 /* task4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = task4.h; sourceTree = "<group>"; };
+		302E5B121FD5848000D780B9 /* task5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = task5.h; sourceTree = "<group>"; };
+		302E5B131FD5848C00D780B9 /* task6.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = task6.h; sourceTree = "<group>"; };
 		3061EF6E1FD46CA2006177AA /* image_DXT.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = image_DXT.c; path = lab1/soil/image_DXT.c; sourceTree = "<group>"; };
 		3061EF6F1FD46CA3006177AA /* image_DXT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = image_DXT.h; path = lab1/soil/image_DXT.h; sourceTree = "<group>"; };
 		3061EF701FD46CA3006177AA /* image_helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = image_helper.h; path = lab1/soil/image_helper.h; sourceTree = "<group>"; };
@@ -45,6 +51,7 @@
 		3061EF7A1FD46CB6006177AA /* stb_image_aug.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = stb_image_aug.c; path = lab1/soil/stb_image_aug.c; sourceTree = "<group>"; };
 		3061EF801FD46CEA006177AA /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stbi_DDS_aug_c.h; path = lab1/soil/stbi_DDS_aug_c.h; sourceTree = "<group>"; };
 		3061EF811FD46D16006177AA /* stb_image_aug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stb_image_aug.h; path = lab1/soil/stb_image_aug.h; sourceTree = "<group>"; };
+		30A8E0C01FD5671B003DC992 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		30EB30251FCC13C10023D008 /* lab1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lab1; sourceTree = BUILT_PRODUCTS_DIR; };
 		30EB30281FCC13C10023D008 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		30EB30301FCC13D20023D008 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -96,6 +103,13 @@
 			isa = PBXGroup;
 			children = (
 				30EB30281FCC13C10023D008 /* main.cpp */,
+				302E5B0E1FD5844600D780B9 /* task1.h */,
+				302E5B0F1FD5845D00D780B9 /* task2.h */,
+				302E5B101FD5846600D780B9 /* task3.h */,
+				302E5B111FD5847500D780B9 /* task4.h */,
+				302E5B121FD5848000D780B9 /* task5.h */,
+				302E5B131FD5848C00D780B9 /* task6.h */,
+				30A8E0C01FD5671B003DC992 /* Header.h */,
 			);
 			path = lab1;
 			sourceTree = "<group>";

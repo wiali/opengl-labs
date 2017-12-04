@@ -1,25 +1,26 @@
-////#include "SOIL.h"
-//#include <cstdio>
-//#include <cmath>
-//#include <stdlib.h>
-//#ifdef __APPLE__
-//#include <GLUT/glut.h>
-//#include <OpenGL/gl.h>
-//#endif
-//#ifdef __linux__
-//// macro for linux
-//#endif
-////#include "../../../external/SOIL/src/SOIL.h"
-////#include "readtexture.h"
-//#include "soil/SOIL.h"
-//
-//double rotate_y = 0;
-//double rotate_x = 0;
-//
-//double rotata_scene = 0;
-//double move_sphere = 0;
-//double move_octahedron = 0;
-//GLuint texture;
+#include "task1.h"
+#include "task2.h"
+#include "task3.h"
+#include "task4.h"
+#include "task5.h"
+#include "task6.h"
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#include <OpenGL/gl.h>
+#endif
+#ifdef __linux__
+// macro for linux
+#endif
+
+static float positionX = 0.f;
+static float positionY = 0.f;
+static float rotationX = 0.f;
+static float rotationY = 0.f;
+static const float dPosition = 0.1f;
+static const float dRotation = 0.1f;
+
+GLuint texture;
 //
 //// LOADING TEXTURE
 ////void loadTexture(GLuint* texture, char* filename){
@@ -142,29 +143,6 @@
 //void wireSphere(float r) {
 //
 //    glutWireSphere(r,8,8);
-//}
-//
-//void drawAxis() {
-//    // red OX
-//    glColor3f(1.f, 0.f, 0.f);
-//    glBegin(GL_LINES);
-//    glVertex3f(0.f, 0.f, 0.f);
-//    glVertex3f(1.f, 0.f, 0.f);
-//    glEnd();
-//
-//    // green OY
-//    glColor3f(0.f, 1.f, 0.f);
-//    glBegin(GL_LINES);
-//    glVertex3f(0.f, 0.f, 0.f);
-//    glVertex3f(0.f, 1.f, 0.f);
-//    glEnd();
-//
-//    // blue OZ
-//    glColor3f(0.f, 0.f, 1.f);
-//    glBegin(GL_LINES);
-//    glVertex3f(0.f, 0.f, 0.f);
-//    glVertex3f(0.f, 0.f, 1.f);
-//    glEnd();
 //}
 //
 //void specialKeys(int key, int x, int y) {
@@ -327,6 +305,31 @@
 //    return 0;
 //}
 
+//void drawAxis() {
+//    // red OX
+//    glColor3f(1.f, 0.f, 0.f);
+//    glBegin(GL_LINES);
+//    glVertex3f(0.f, 0.f, 0.f);
+//    glVertex3f(1.f, 0.f, 0.f);
+//    glEnd();
+//
+//    // green OY
+//    glColor3f(0.f, 1.f, 0.f);
+//    glBegin(GL_LINES);
+//    glVertex3f(0.f, 0.f, 0.f);
+//    glVertex3f(0.f, 1.f, 0.f);
+//    glEnd();
+//
+//    // blue OZ
+//    glColor3f(0.f, 0.f, 1.f);
+//    glBegin(GL_LINES);
+//    glVertex3f(0.f, 0.f, 0.f);
+//    glVertex3f(0.f, 0.f, 1.f);
+//    glEnd();
+//}
+
+
+/*
 #include <GLUT/glut.h>
 #include <OpenGL/gl.h>
 #include <stdlib.h>
@@ -349,7 +352,7 @@ void makeStripeImage(void)
     }
 }
 
-/*  planes for texture coordinate generation  */
+/*  
 static GLfloat xequalzero[] = {1.0, 0.0, 0.0, 0.0};
 static GLfloat slanted[] = {1.0, 1.0, 1.0, 0.0};
 static GLfloat *currentCoeff;
@@ -406,10 +409,12 @@ void display(void)
 //    glutSolidTorus(2, 2, 4, 5);
 //    glutSolidTeapot(2.0);
 //    glutSolidOctahedron();
-    glutSolidSphere(2, 10, 10);
-    
-    
+//    glutSolidSphere(2, 10, 10);
+    glutSolidTorus(0.1, 0.5, 10, 10);
+    glDisable(GL_TEXTURE_2D);
     glPopMatrix ();
+    glutSolidSphere(3, 10, 11);
+    
     glFlush();
 }
 
@@ -474,7 +479,10 @@ int main(int argc, char** argv)
     glutInitWindowSize(800, 800);
 //    glutInitWindowPosition(100, 100);
     glutCreateWindow (argv[0]);
-    init ();
+//    init();
+    
+//    GLuint ss = loadTexture("texture.bmp");
+    
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyboard);
@@ -482,3 +490,5 @@ int main(int argc, char** argv)
     return 0;
 }
 
+
+*/
