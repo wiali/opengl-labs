@@ -15,12 +15,110 @@
 
 static float positionX = 0.f;
 static float positionY = 0.f;
+static float positionZ = 0.f;
 static float rotationX = 0.f;
 static float rotationY = 0.f;
+static float rotationZ = 0.f;
 static const float dPosition = 0.1f;
-static const float dRotation = 0.1f;
+static const float dRotation = 5.f;
 
 GLuint texture;
+
+// Callbacks
+void display();
+void specialKeys(int key, int x, int y);
+void drawAxis();
+void handleSpecialKeys();
+
+int main(int argc, char* argv[])
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode (/*GLUT_DOUBLE | */GLUT_RGBA/* | GLUT_DEPTH*/);
+    glutInitWindowSize(800, 800);
+    glutCreateWindow("Lab1");
+    
+    glutDisplayFunc(display);
+//    glutKeyboardFunc(keyboard);
+    glutSpecialFunc(specialKeys);
+    
+    glutMainLoop();
+    
+    return 0;
+}
+
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    
+    //glScalef(0.5f, 0.5f, 0.5f);
+    glOrtho(-2.0, 2.0, -2.0, 2.0, 2.0, -2.0);
+    
+    handleSpecialKeys();
+
+    drawAxis();
+    
+//    doTask123(positionX, positionY, positionZ);
+    doTask2();
+    
+    glFlush();
+    glutSwapBuffers();
+}
+
+void handleSpecialKeys()
+{
+    glRotatef(rotationX, 1.f, 0.f, 0.f);
+    glRotatef(rotationY, 0.f, 1.f, 0.f);
+    glRotatef(rotationZ, 0.f, 0.f, 1.f);
+}
+
+void specialKeys(int key, int x, int y)
+{
+    if (key == GLUT_KEY_RIGHT)
+        rotationY -= dRotation;
+    else if (key == GLUT_KEY_LEFT)
+        rotationY += dRotation;
+    else if (key == GLUT_KEY_UP)
+        rotationX += dRotation;
+    else if (key == GLUT_KEY_DOWN)
+        rotationX -= dRotation;
+    else if (key == GLUT_KEY_F1)
+        rotationZ += dRotation;
+    else if (key == GLUT_KEY_F2)
+        rotationZ -= dRotation;
+    else if (key == GLUT_KEY_F3)
+        positionX += dPosition;
+    else if (key == GLUT_KEY_F4)
+        positionY += dPosition;
+    
+    glutPostRedisplay();
+}
+
+
+void drawAxis() {
+    // red OX
+    glColor3f(1.f, 0.f, 0.f);
+    glBegin(GL_LINES);
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(1.f, 0.f, 0.f);
+    glEnd();
+    
+    // green OY
+    glColor3f(0.f, 1.f, 0.f);
+    glBegin(GL_LINES);
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(0.f, 1.f, 0.f);
+    glEnd();
+    
+    // blue OZ
+    glColor3f(0.f, 0.f, 1.f);
+    glBegin(GL_LINES);
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(0.f, 0.f, 1.f);
+    glEnd();
+}
+
+
 //
 //// LOADING TEXTURE
 ////void loadTexture(GLuint* texture, char* filename){
@@ -37,42 +135,7 @@ GLuint texture;
 ////}
 //
 //
-///*
-// r = torus ring radius
-// c = torus tube radius
-// rSeg, cSeg = number of segments/detail
-// */
-//void drawTorus(double r = 0.07, double c = 0.0,
-//               int rSeg = 16, int cSeg = 8,
-//               int texture = 0)
-//{
-//    glFrontFace(GL_CW);
-//    glBindTexture(GL_TEXTURE_2D, texture);
-//    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-//    const double PI = 3.1415926535897932384626433832795;
-//    const double TAU = 2 * PI;
-//    for (int i = 0; i < rSeg; i++) {
-//        //        glBegin(GL_QUAD_STRIP);
-//        glBegin(GL_LINE_LOOP);
-//        for (int j = 0; j <= cSeg; j++) {
-//            for (int k = 0; k <= 1; k++) {
-//                double s = (i + k) % rSeg + 0.5;
-//                double t = j % (cSeg + 1);
-//                double x = (c + r * cos(s * TAU / rSeg)) * cos(t * TAU / cSeg);
-//                double y = (c + r * cos(s * TAU / rSeg)) * sin(t * TAU / cSeg);
-//                double z = r * sin(s * TAU / rSeg);
-//                double u = (i + k) / (float) rSeg;
-//                double v = t / (float) cSeg;
-//                glTexCoord2d(u, v);
-//                glNormal3f(2 * x, 2 * y, 2 * z);
-//                glVertex3d(2 * x, 2 * y, 2 * z);
-//            }
-//        }
-//        glEnd();
-//    }
-//    glFrontFace(GL_CCW);
-//}
-//
+
 //void wireCylinder(float r, float h, int nsides, int nlongs) {
 //    glColor3f(1.f, 1.f, 0.f);
 //
@@ -138,11 +201,6 @@ GLuint texture;
 //    }
 //    glVertex3f(r, h / 2, 0.f);
 //    glEnd();
-//}
-//
-//void wireSphere(float r) {
-//
-//    glutWireSphere(r,8,8);
 //}
 //
 //void specialKeys(int key, int x, int y) {
@@ -330,165 +388,165 @@ GLuint texture;
 
 
 /*
-#include <GLUT/glut.h>
-#include <OpenGL/gl.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#define stripeImageWidth 32
-GLubyte stripeImage[4*stripeImageWidth];
-
-static GLuint texName;
-
-void makeStripeImage(void)
-{
-    int j;
-    
-    for (j = 0; j < stripeImageWidth; j++) {
-        stripeImage[4*j] = (GLubyte) ((j<=4) ? 255 : 0);
-        stripeImage[4*j+1] = (GLubyte) ((j>4) ? 255 : 0);
-        stripeImage[4*j+2] = (GLubyte) 0;
-        stripeImage[4*j+3] = (GLubyte) 255;
-    }
-}
-
-/*  
-static GLfloat xequalzero[] = {1.0, 0.0, 0.0, 0.0};
-static GLfloat slanted[] = {1.0, 1.0, 1.0, 0.0};
-static GLfloat *currentCoeff;
-static GLenum currentPlane;
-static GLint currentGenMode;
-
-void init(void)
-{
-    glClearColor (0.0, 0.0, 0.0, 0.0);
-    glEnable(GL_DEPTH_TEST);
-//    glShadeModel(GL_SMOOTH);
-    
-    makeStripeImage();
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    
-    glGenTextures(1, &texName);
-    glBindTexture(GL_TEXTURE_1D, texName);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER,
-                    GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER,
-                    GL_LINEAR);
-    glTexImage1D(GL_TEXTURE_1D, 0, GL_RGBA, stripeImageWidth, 0,
-                 GL_RGBA, GL_UNSIGNED_BYTE, stripeImage);
-    
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    currentCoeff = xequalzero;
-    currentGenMode = GL_OBJECT_LINEAR;
-    currentPlane = GL_OBJECT_PLANE;
-    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, currentGenMode);
-    glTexGenfv(GL_S, currentPlane, currentCoeff);
-    
-    glEnable(GL_TEXTURE_GEN_S);
-    glEnable(GL_TEXTURE_1D);
-    glEnable(GL_CULL_FACE);
-//    glEnable(GL_LIGHTING);
-//    glEnable(GL_LIGHT0);
-    glEnable(GL_AUTO_NORMAL);
-    glEnable(GL_NORMALIZE);
-    glFrontFace(GL_CW);
-    glCullFace(GL_BACK);
-    glMaterialf (GL_FRONT, GL_SHININESS, 64.0);
-}
-
-void display(void)
-{
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glPushMatrix ();
-    glRotatef(45.0, 0.0, 0.0, 1.0);
-    glBindTexture(GL_TEXTURE_1D, texName);
-    
-//    glutWireTorus(0.5, 0.5, 10, 10);
-//    glutSolidTorus(2, 2, 4, 5);
-//    glutSolidTeapot(2.0);
-//    glutSolidOctahedron();
-//    glutSolidSphere(2, 10, 10);
-    glutSolidTorus(0.1, 0.5, 10, 10);
-    glDisable(GL_TEXTURE_2D);
-    glPopMatrix ();
-    glutSolidSphere(3, 10, 11);
-    
-    glFlush();
-}
-
-void reshape(int w, int h)
-{
-    glViewport(0, 0, (GLsizei) w, (GLsizei) h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    if (w <= h)
-        glOrtho (-3.5, 3.5, -3.5*(GLfloat)h/(GLfloat)w,
-                 3.5*(GLfloat)h/(GLfloat)w, -3.5, 3.5);
-    else
-        glOrtho (-3.5*(GLfloat)w/(GLfloat)h,
-                 3.5*(GLfloat)w/(GLfloat)h, -3.5, 3.5, -3.5, 3.5);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-}
-
-void keyboard (unsigned char key, int x, int y)
-{
-    switch (key) {
-        case 'e':
-        case 'E':
-            currentGenMode = GL_EYE_LINEAR;
-            currentPlane = GL_EYE_PLANE;
-            glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, currentGenMode);
-            glTexGenfv(GL_S, currentPlane, currentCoeff);
-            glutPostRedisplay();
-            break;
-        case 'o':
-        case 'O':
-            currentGenMode = GL_OBJECT_LINEAR;
-            currentPlane = GL_OBJECT_PLANE;
-            glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, currentGenMode);
-            glTexGenfv(GL_S, currentPlane, currentCoeff);
-            glutPostRedisplay();
-            break;
-        case 's':
-        case 'S':
-            currentCoeff = slanted;
-            glTexGenfv(GL_S, currentPlane, currentCoeff);
-            glutPostRedisplay();
-            break;
-        case 'x':
-        case 'X':
-            currentCoeff = xequalzero;
-            glTexGenfv(GL_S, currentPlane, currentCoeff);
-            glutPostRedisplay();
-            break;
-        case 27:
-            exit(0);
-            break;
-        default:
-            break;
-    }
-}
-
-int main(int argc, char** argv)
-{
-    glutInit(&argc, argv);
-    glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(800, 800);
-//    glutInitWindowPosition(100, 100);
-    glutCreateWindow (argv[0]);
-//    init();
-    
-//    GLuint ss = loadTexture("texture.bmp");
-    
-    glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
-    glutKeyboardFunc(keyboard);
-    glutMainLoop();
-    return 0;
-}
-
-
-*/
+ #include <GLUT/glut.h>
+ #include <OpenGL/gl.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+ 
+ #define stripeImageWidth 32
+ GLubyte stripeImage[4*stripeImageWidth];
+ 
+ static GLuint texName;
+ 
+ void makeStripeImage(void)
+ {
+ int j;
+ 
+ for (j = 0; j < stripeImageWidth; j++) {
+ stripeImage[4*j] = (GLubyte) ((j<=4) ? 255 : 0);
+ stripeImage[4*j+1] = (GLubyte) ((j>4) ? 255 : 0);
+ stripeImage[4*j+2] = (GLubyte) 0;
+ stripeImage[4*j+3] = (GLubyte) 255;
+ }
+ }
+ 
+ /*
+ static GLfloat xequalzero[] = {1.0, 0.0, 0.0, 0.0};
+ static GLfloat slanted[] = {1.0, 1.0, 1.0, 0.0};
+ static GLfloat *currentCoeff;
+ static GLenum currentPlane;
+ static GLint currentGenMode;
+ 
+ void init(void)
+ {
+ glClearColor (0.0, 0.0, 0.0, 0.0);
+ glEnable(GL_DEPTH_TEST);
+ //    glShadeModel(GL_SMOOTH);
+ 
+ makeStripeImage();
+ glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+ 
+ glGenTextures(1, &texName);
+ glBindTexture(GL_TEXTURE_1D, texName);
+ glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+ glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER,
+ GL_LINEAR);
+ glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER,
+ GL_LINEAR);
+ glTexImage1D(GL_TEXTURE_1D, 0, GL_RGBA, stripeImageWidth, 0,
+ GL_RGBA, GL_UNSIGNED_BYTE, stripeImage);
+ 
+ glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+ currentCoeff = xequalzero;
+ currentGenMode = GL_OBJECT_LINEAR;
+ currentPlane = GL_OBJECT_PLANE;
+ glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, currentGenMode);
+ glTexGenfv(GL_S, currentPlane, currentCoeff);
+ 
+ glEnable(GL_TEXTURE_GEN_S);
+ glEnable(GL_TEXTURE_1D);
+ glEnable(GL_CULL_FACE);
+ //    glEnable(GL_LIGHTING);
+ //    glEnable(GL_LIGHT0);
+ glEnable(GL_AUTO_NORMAL);
+ glEnable(GL_NORMALIZE);
+ glFrontFace(GL_CW);
+ glCullFace(GL_BACK);
+ glMaterialf (GL_FRONT, GL_SHININESS, 64.0);
+ }
+ 
+ void display(void)
+ {
+ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+ glPushMatrix ();
+ glRotatef(45.0, 0.0, 0.0, 1.0);
+ glBindTexture(GL_TEXTURE_1D, texName);
+ 
+ //    glutWireTorus(0.5, 0.5, 10, 10);
+ //    glutSolidTorus(2, 2, 4, 5);
+ //    glutSolidTeapot(2.0);
+ //    glutSolidOctahedron();
+ //    glutSolidSphere(2, 10, 10);
+ glutSolidTorus(0.1, 0.5, 10, 10);
+ glDisable(GL_TEXTURE_2D);
+ glPopMatrix ();
+ glutSolidSphere(3, 10, 11);
+ 
+ glFlush();
+ }
+ 
+ void reshape(int w, int h)
+ {
+ glViewport(0, 0, (GLsizei) w, (GLsizei) h);
+ glMatrixMode(GL_PROJECTION);
+ glLoadIdentity();
+ if (w <= h)
+ glOrtho (-3.5, 3.5, -3.5*(GLfloat)h/(GLfloat)w,
+ 3.5*(GLfloat)h/(GLfloat)w, -3.5, 3.5);
+ else
+ glOrtho (-3.5*(GLfloat)w/(GLfloat)h,
+ 3.5*(GLfloat)w/(GLfloat)h, -3.5, 3.5, -3.5, 3.5);
+ glMatrixMode(GL_MODELVIEW);
+ glLoadIdentity();
+ }
+ 
+ void keyboard (unsigned char key, int x, int y)
+ {
+ switch (key) {
+ case 'e':
+ case 'E':
+ currentGenMode = GL_EYE_LINEAR;
+ currentPlane = GL_EYE_PLANE;
+ glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, currentGenMode);
+ glTexGenfv(GL_S, currentPlane, currentCoeff);
+ glutPostRedisplay();
+ break;
+ case 'o':
+ case 'O':
+ currentGenMode = GL_OBJECT_LINEAR;
+ currentPlane = GL_OBJECT_PLANE;
+ glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, currentGenMode);
+ glTexGenfv(GL_S, currentPlane, currentCoeff);
+ glutPostRedisplay();
+ break;
+ case 's':
+ case 'S':
+ currentCoeff = slanted;
+ glTexGenfv(GL_S, currentPlane, currentCoeff);
+ glutPostRedisplay();
+ break;
+ case 'x':
+ case 'X':
+ currentCoeff = xequalzero;
+ glTexGenfv(GL_S, currentPlane, currentCoeff);
+ glutPostRedisplay();
+ break;
+ case 27:
+ exit(0);
+ break;
+ default:
+ break;
+ }
+ }
+ 
+ int main(int argc, char** argv)
+ {
+ glutInit(&argc, argv);
+ glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
+ glutInitWindowSize(800, 800);
+ //    glutInitWindowPosition(100, 100);
+ glutCreateWindow (argv[0]);
+ //    init();
+ 
+ //    GLuint ss = loadTexture("texture.bmp");
+ 
+ glutDisplayFunc(display);
+ glutReshapeFunc(reshape);
+ glutKeyboardFunc(keyboard);
+ glutMainLoop();
+ return 0;
+ }
+ 
+ 
+ */

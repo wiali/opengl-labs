@@ -16,7 +16,9 @@
 void drawCylinder(float r, float h);
 void drawSphere(float r);
 
-void doTask1() {
+void doTask123(float posX, float posY, float posZ) {
+    glColor3f(1.f, 1.f, 0.f);
+    glTranslated(posX, posY, posZ);
     drawCylinder(0.5, 1);
     drawSphere(0.5);
 }
@@ -26,7 +28,7 @@ void drawCylinder(float r, float h) {
     float x = 0.f;
     float y = 0.f;
     float angle = 0.f;
-    float angle_stepsize = 0.1;
+    float angle_stepsize = 0.3;
     
     while (angle < 2 * M_PI) {
         x = r * cos(angle);
@@ -67,7 +69,7 @@ void drawCylinder(float r, float h) {
 }
 
 void drawSphere(float r) {
-    glutWireSphere(r, 10, 10);
+    glutWireSphere(r, 8, 8);
 }
 
 #endif /* task1_h */
