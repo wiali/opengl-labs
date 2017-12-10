@@ -25,15 +25,15 @@ GLubyte stripeImage[4*stripeImageWidth];
 
 static GLuint texName;
 
-void makeStripeImage(void)
-{
-    for (int j = 0; j < stripeImageWidth; j++) {
-        stripeImage[4*j] = (GLubyte) ((j<=4) ? 255 : 0);
-        stripeImage[4*j+1] = (GLubyte) ((j>4) ? 255 : 0);
-        stripeImage[4*j+2] = (GLubyte) 0;
-        stripeImage[4*j+3] = (GLubyte) 255;
-    }
-}
+//void makeStripeImage(void)
+//{
+//    for (int j = 0; j < stripeImageWidth; j++) {
+//        stripeImage[4*j] = (GLubyte) ((j<=4) ? 255 : 0);
+//        stripeImage[4*j+1] = (GLubyte) ((j>4) ? 255 : 0);
+//        stripeImage[4*j+2] = (GLubyte) 0;
+//        stripeImage[4*j+3] = (GLubyte) 255;
+//    }
+//}
 
 //from main finish
 
@@ -43,7 +43,7 @@ void drawOctahedron();
 void drawTorus(double r = 0.07, double c = 0.2, int rSeg = 16, int cSeg = 8);
 void init();
 //void drawTextured();
-GLuint loadTexture(const char * filename)
+GLuint loadTexture(const char * filename);
 
 
 void doTask2()
@@ -70,6 +70,14 @@ void doTask2()
     glDisable(GL_TEXTURE_1D);
     glPopMatrix ();
      */
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    
+    glutSolidTeapot(1.f);
+    
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+    
 }
 
 void drawOctahedron()
@@ -86,6 +94,7 @@ static GLfloat *currentCoeff;
 static GLenum currentPlane;
 static GLint currentGenMode;
 
+/*
 void init()
 {
     glClearColor (0.0, 0.0, 0.0, 0.0);
@@ -120,7 +129,7 @@ void init()
     glCullFace(GL_BACK);
     glMaterialf (GL_FRONT, GL_SHININESS, 64.0);
 }
-
+*/
 
 void drawTorus(double r, double c, int rSeg, int cSeg)
 {
@@ -147,59 +156,91 @@ void drawTorus(double r, double c, int rSeg, int cSeg)
 }
 
 // read bmp
-GLuint loadTexture(const char * filename)
+//GLuint loadTexture(const char * filename)
+//{
+//    if (!filename)
+//    {
+//        throw std::invalid_argument("Empty filename");
+//    }
+//
+//    FILE * image = fopen(filename, "rb");
+//    if (!image)
+//    {
+//        throw std::invalid_argument("Wrong texture filename");
+//    }
+//
+//    unsigned char header[54]; // header of the BMP file
+//
+//    if (fread(header, 1, 54, image) != 54)
+//    {
+//        throw std::runtime_error("Wrong header of texture file");
+//    }
+//
+//    if (header[0] != 'B' || header[1] != 'M')
+//    {
+//        throw std::runtime_error("Incorrect BMP texture file");
+//    }
+//
+//    // Reading header
+//
+//    int dataPos = *(int *) & (header[0x0A]); // offset for data
+//    int imageSize = *(int *) & (header[0x22]); // byte size of image
+//    int width = *(int *) & (header[0x12]);
+//    int height = *(int *) & (header[0x16]);
+//
+//    if (imageSize == 0)
+//    {
+//        imageSize = width * height * 3; // 3 - for RGB
+//    }
+//    if (dataPos == 0)
+//    {
+//        dataPos = 54; // straight after header
+//    }
+//
+//    unsigned char * data = new unsigned char[imageSize];
+//    fread(data, 1, imageSize, image);
+//    fclose(image);
+//
+//    GLuint texId;
+//    glGenTextures(1, &texId);
+//    glBindTexture(GL_TEXTURE_2D, texId);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, data);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//
+//    return texId;
+//}
+
+unsigned char* readBMP(char* filename)
 {
-    if (!filename)
-    {
-        throw std::invalid_argument("Empty filename");
-    }
+    int i;
+    FILE* f = fopen(filename, "rb");
     
-    FILE * image = fopen(filename, "rb");
-    if (!image)
+    if (!f)
     {
         throw std::invalid_argument("Wrong texture filename");
     }
     
-    unsigned char header[54]; // header of the BMP file
+    unsigned char info[54];
+    fread(info, sizeof(unsigned char), 54, f); // read the 54-byte header
     
-    if (fread(header, 1, 54, image) != 54)
+    // extract image height and width from header
+    int width = *(int*)&info[18];
+    int height = *(int*)&info[22];
+    
+    int size = 3 * width * height;
+    unsigned char* data = new unsigned char[size]; // allocate 3 bytes per pixel
+    fread(data, sizeof(unsigned char), size, f); // read the rest of the data at once
+    fclose(f);
+    
+    for(i = 0; i < size; i += 3)
     {
-        throw std::runtime_error("Wrong header of texture file");
+        unsigned char tmp = data[i];
+        data[i] = data[i+2];
+        data[i+2] = tmp;
     }
     
-    if (header[0] != 'B' || header[1] != 'M')
-    {
-        throw std::runtime_error("Incorrect BMP texture file");
-    }
-    
-    // Reading header
-    
-    int dataPos = *(int *) & (header[0x0A]); // offset for data
-    int imageSize = *(int *) & (header[0x22]); // byte size of image
-    int width = *(int *) & (header[0x12]);
-    int height = *(int *) & (header[0x16]);
-    
-    if (imageSize == 0)
-    {
-        imageSize = width * height * 3; // 3 - for RGB
-    }
-    if (dataPos == 0)
-    {
-        dataPos = 54; // straight after header
-    }
-    
-    unsigned char * data = new unsigned char[imageSize];
-    fread(data, 1, imageSize, image);
-    fclose(image);
-    
-    GLuint texId;
-    glGenTextures(1, &texId);
-    glBindTexture(GL_TEXTURE_2D, texId);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, data);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    
-    return texId;
+    return data;
 }
 
 #endif /* task2_h */

@@ -34,6 +34,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		30049F461FDDEAF600A139E9 /* test_file.DDS */ = {isa = PBXFileReference; lastKnownFileType = text; path = test_file.DDS; sourceTree = "<group>"; };
 		302E5B0E1FD5844600D780B9 /* task1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = task1.h; sourceTree = "<group>"; };
 		302E5B0F1FD5845D00D780B9 /* task2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = task2.h; sourceTree = "<group>"; };
 		302E5B101FD5846600D780B9 /* task3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = task3.h; sourceTree = "<group>"; };
@@ -103,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				30EB30281FCC13C10023D008 /* main.cpp */,
+				30049F461FDDEAF600A139E9 /* test_file.DDS */,
 				302E5B0E1FD5844600D780B9 /* task1.h */,
 				302E5B0F1FD5845D00D780B9 /* task2.h */,
 				302E5B101FD5846600D780B9 /* task3.h */,
