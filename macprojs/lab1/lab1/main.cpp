@@ -1,3 +1,121 @@
+#include "task1.h"
+#include "task2.h"
+#include "task3.h"
+#include "task4.h"
+#include "task5.h"
+#include "task6.h"
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#include <OpenGL/gl.h>
+#endif
+#ifdef __linux__
+// macro for linux
+#endif
+
+static float positionX = 0.f;
+static float positionY = 0.f;
+static float positionZ = 0.f;
+static float rotationX = 0.f;
+static float rotationY = 0.f;
+static float rotationZ = 0.f;
+static const float dPosition = 0.1f;
+static const float dRotation = 5.f;
+
+void display();
+void specialKeys(int key, int x, int y);
+void drawAxis();
+void handleSpecialKeys();
+
+int main(int argc, char* argv[])
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+    glutInitWindowSize(800, 800);
+    glutCreateWindow("Lab1");
+    
+    glutDisplayFunc(display);
+    //    glutKeyboardFunc(keyboard);
+    glutSpecialFunc(specialKeys);
+    
+    glutMainLoop();
+    
+    return 0;
+}
+
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    
+    //glScalef(0.5f, 0.5f, 0.5f);
+    glOrtho(-2.0, 2.0, -2.0, 2.0, 2.0, -2.0);
+    
+    handleSpecialKeys();
+    
+    drawAxis();
+    
+    //    doTask123(positionX, positionY, positionZ);
+    doTask2();
+    
+    glFlush();
+    glutSwapBuffers();
+}
+
+void handleSpecialKeys()
+{
+    glRotatef(rotationX, 1.f, 0.f, 0.f);
+    glRotatef(rotationY, 0.f, 1.f, 0.f);
+    glRotatef(rotationZ, 0.f, 0.f, 1.f);
+}
+
+void specialKeys(int key, int x, int y)
+{
+    if (key == GLUT_KEY_RIGHT)
+        rotationY -= dRotation;
+    else if (key == GLUT_KEY_LEFT)
+        rotationY += dRotation;
+    else if (key == GLUT_KEY_UP)
+        rotationX += dRotation;
+    else if (key == GLUT_KEY_DOWN)
+        rotationX -= dRotation;
+    else if (key == GLUT_KEY_F1)
+        rotationZ += dRotation;
+    else if (key == GLUT_KEY_F2)
+        rotationZ -= dRotation;
+    else if (key == GLUT_KEY_F3)
+        positionX += dPosition;
+    else if (key == GLUT_KEY_F4)
+        positionY += dPosition;
+    
+    glutPostRedisplay();
+}
+
+
+void drawAxis() {
+    // red OX
+    glColor3f(1.f, 0.f, 0.f);
+    glBegin(GL_LINES);
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(1.f, 0.f, 0.f);
+    glEnd();
+    
+    // green OY
+    glColor3f(0.f, 1.f, 0.f);
+    glBegin(GL_LINES);
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(0.f, 1.f, 0.f);
+    glEnd();
+    
+    // blue OZ
+    glColor3f(0.f, 0.f, 1.f);
+    glBegin(GL_LINES);
+    glVertex3f(0.f, 0.f, 0.f);
+    glVertex3f(0.f, 0.f, 1.f);
+    glEnd();
+}
+
+
 /*
  // working textures
  #include <GLUT/glut.h>
@@ -164,126 +282,6 @@
  */
 
 
-#include "task1.h"
-#include "task2.h"
-#include "task3.h"
-#include "task4.h"
-#include "task5.h"
-#include "task6.h"
-
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#include <OpenGL/gl.h>
-#endif
-#ifdef __linux__
-// macro for linux
-#endif
-
-static float positionX = 0.f;
-static float positionY = 0.f;
-static float positionZ = 0.f;
-static float rotationX = 0.f;
-static float rotationY = 0.f;
-static float rotationZ = 0.f;
-static const float dPosition = 0.1f;
-static const float dRotation = 5.f;
-
-GLuint texture;
-
-// Callbacks
-void display();
-void specialKeys(int key, int x, int y);
-void drawAxis();
-void handleSpecialKeys();
-
-int main(int argc, char* argv[])
-{
-    glutInit(&argc, argv);
-    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-    glutInitWindowSize(800, 800);
-    glutCreateWindow("Lab1");
-    init();
-    
-    glutDisplayFunc(display);
-    //    glutKeyboardFunc(keyboard);
-    glutSpecialFunc(specialKeys);
-    
-    glutMainLoop();
-    
-    return 0;
-}
-
-void display()
-{
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-    
-    //glScalef(0.5f, 0.5f, 0.5f);
-    glOrtho(-2.0, 2.0, -2.0, 2.0, 2.0, -2.0);
-    
-    handleSpecialKeys();
-    
-    drawAxis();
-    
-    //    doTask123(positionX, positionY, positionZ);
-    doTask2();
-    
-    glFlush();
-    glutSwapBuffers();
-}
-
-void handleSpecialKeys()
-{
-    glRotatef(rotationX, 1.f, 0.f, 0.f);
-    glRotatef(rotationY, 0.f, 1.f, 0.f);
-    glRotatef(rotationZ, 0.f, 0.f, 1.f);
-}
-
-void specialKeys(int key, int x, int y)
-{
-    if (key == GLUT_KEY_RIGHT)
-        rotationY -= dRotation;
-    else if (key == GLUT_KEY_LEFT)
-        rotationY += dRotation;
-    else if (key == GLUT_KEY_UP)
-        rotationX += dRotation;
-    else if (key == GLUT_KEY_DOWN)
-        rotationX -= dRotation;
-    else if (key == GLUT_KEY_F1)
-        rotationZ += dRotation;
-    else if (key == GLUT_KEY_F2)
-        rotationZ -= dRotation;
-    else if (key == GLUT_KEY_F3)
-        positionX += dPosition;
-    else if (key == GLUT_KEY_F4)
-        positionY += dPosition;
-    
-    glutPostRedisplay();
-}
-
-
-void drawAxis() {
-    // red OX
-    glColor3f(1.f, 0.f, 0.f);
-    glBegin(GL_LINES);
-    glVertex3f(0.f, 0.f, 0.f);
-    glVertex3f(1.f, 0.f, 0.f);
-    glEnd();
-    
-    // green OY
-    glColor3f(0.f, 1.f, 0.f);
-    glBegin(GL_LINES);
-    glVertex3f(0.f, 0.f, 0.f);
-    glVertex3f(0.f, 1.f, 0.f);
-    glEnd();
-    
-    // blue OZ
-    glColor3f(0.f, 0.f, 1.f);
-    glBegin(GL_LINES);
-    glVertex3f(0.f, 0.f, 0.f);
-    glVertex3f(0.f, 0.f, 1.f);
-    glEnd();
-}
 
 //
 //// LOADING TEXTURE
@@ -527,27 +525,4 @@ void drawAxis() {
 //    glutMainLoop();
 //
 //    return 0;
-//}
-
-//void drawAxis() {
-//    // red OX
-//    glColor3f(1.f, 0.f, 0.f);
-//    glBegin(GL_LINES);
-//    glVertex3f(0.f, 0.f, 0.f);
-//    glVertex3f(1.f, 0.f, 0.f);
-//    glEnd();
-//
-//    // green OY
-//    glColor3f(0.f, 1.f, 0.f);
-//    glBegin(GL_LINES);
-//    glVertex3f(0.f, 0.f, 0.f);
-//    glVertex3f(0.f, 1.f, 0.f);
-//    glEnd();
-//
-//    // blue OZ
-//    glColor3f(0.f, 0.f, 1.f);
-//    glBegin(GL_LINES);
-//    glVertex3f(0.f, 0.f, 0.f);
-//    glVertex3f(0.f, 0.f, 1.f);
-//    glEnd();
 //}
