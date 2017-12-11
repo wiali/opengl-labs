@@ -70,13 +70,13 @@ void doTask2()
     glDisable(GL_TEXTURE_1D);
     glPopMatrix ();
      */
-    glPushMatrix();
-    glEnable(GL_TEXTURE_2D);
-    
-    glutSolidTeapot(1.f);
-    
-    glDisable(GL_TEXTURE_2D);
-    glPopMatrix();
+//    glPushMatrix();
+//    glEnable(GL_TEXTURE_2D);
+//
+//    glutSolidTeapot(1.f);
+//
+//    glDisable(GL_TEXTURE_2D);
+//    glPopMatrix();
     
 }
 

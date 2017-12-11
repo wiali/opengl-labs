@@ -8,6 +8,7 @@
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
 #endif
 #ifdef __linux__
 // macro for linux
@@ -31,19 +32,20 @@ void display();
 void specialKeys(int key, int x, int y);
 void drawAxis();
 void handleSpecialKeys();
-GLuint loadDDS(const char * imagepath);
+//GLuint loadDDS(const char * imagepath);
+GLuint loadTexture(const char * filename);
 
 int main(int argc, char* argv[])
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+    glutInitDisplayMode (/*GLUT_DOUBLE | */GLUT_RGB/* | GLUT_DEPTH*/);
     glutInitWindowSize(800, 800);
     glutCreateWindow("Lab1");
     
     glutDisplayFunc(display);
     glutSpecialFunc(specialKeys);
 
-    textureID = loadDDS("test_file.DDS");
+    textureID = loadTexture("texture.bmp"); //loadDDS("test_file.DDS");
     
     
     glutMainLoop();
@@ -60,11 +62,41 @@ void display()
     glOrtho(-2.0, 2.0, -2.0, 2.0, 2.0, -2.0);
     
     handleSpecialKeys();
+//
+//    glPushMatrix();
+//
+//    glPushMatrix();
+////    drawAxis();
+//    glPopMatrix();
+//    //    doTask123(positionX, positionY, positionZ);
+////    doTask2();
     
-    drawAxis();
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
     
-    //    doTask123(positionX, positionY, positionZ);
-    doTask2();
+//    glBindTexture(GL_TEXTURE_2D, textureID);
+//    glColor3f(1.f, 0.f, 0.f);
+//    glutSolidTeapot(1.f);
+//    glutSolidOctahedron();
+//    glPushMatrix();
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    
+//    glPopMatrix();
+//    gluSolidSphere(1.f, 8, 8);
+//    drawTorus();
+//    glutSolidOctahedron();
+    glutSolidSphere(1, 10, 10);
+//    glutSolidTorus(0.5f, 1.f, 10, 10);
+    
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPopMatrix();
     
     glFlush();
     glutSwapBuffers();
@@ -124,6 +156,65 @@ void drawAxis() {
 }
 
 
+// read bmp
+GLuint loadTexture(const char * filename)
+{
+    if (!filename)
+    {
+        throw std::invalid_argument("Empty filename");
+    }
+
+    FILE * image = fopen(filename, "rb");
+    if (!image)
+    {
+        throw std::invalid_argument("Wrong texture filename");
+    }
+
+    unsigned char header[54]; // header of the BMP file
+
+    if (fread(header, 1, 54, image) != 54)
+    {
+        throw std::runtime_error("Wrong header of texture file");
+    }
+
+    if (header[0] != 'B' || header[1] != 'M')
+    {
+        throw std::runtime_error("Incorrect BMP texture file");
+    }
+
+    // Reading header
+
+    int dataPos = *(int *) & (header[0x0A]); // offset for data
+    int imageSize = *(int *) & (header[0x22]); // byte size of image
+    int width = *(int *) & (header[0x12]);
+    int height = *(int *) & (header[0x16]);
+
+    if (imageSize == 0)
+    {
+        imageSize = width * height * 3; // 3 - for RGB
+    }
+    if (dataPos == 0)
+    {
+        dataPos = 54; // straight after header
+    }
+
+    unsigned char * data = new unsigned char[imageSize];
+    fread(data, 1, imageSize, image);
+    fclose(image);
+    
+    GLuint texId;
+    glGenTextures(1, &texId);
+    glBindTexture(GL_TEXTURE_2D, texId);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    return texId;
+}
+
+
+
+/*
 #define FOURCC_DXT1 0x31545844 // Equivalent to "DXT1" in ASCII
 #define FOURCC_DXT3 0x33545844 // Equivalent to "DXT3" in ASCII
 #define FOURCC_DXT5 0x35545844 // Equivalent to "DXT5" in ASCII
@@ -134,7 +225,7 @@ GLuint loadDDS(const char * imagepath){
     
     FILE *fp;
     
-    /* try to open the file */
+    
     fp = fopen(imagepath, "rb");
     if (fp == NULL){
         //printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath); getchar();
@@ -142,7 +233,7 @@ GLuint loadDDS(const char * imagepath){
         return 0;
     }
     
-    /* verify the type of file */
+
     char filecode[4];
     fread(filecode, 1, 4, fp);
     if (strncmp(filecode, "DDS ", 4) != 0) {
@@ -150,7 +241,7 @@ GLuint loadDDS(const char * imagepath){
         return 0;
     }
     
-    /* get the surface desc */
+
     fread(&header, 124, 1, fp);
     
     unsigned int height      = *(unsigned int*)&(header[8 ]);
@@ -162,11 +253,11 @@ GLuint loadDDS(const char * imagepath){
     
     unsigned char * buffer;
     unsigned int bufsize;
-    /* how big is it going to be including all mipmaps? */
+
     bufsize = mipMapCount > 1 ? linearSize * 2 : linearSize;
     buffer = (unsigned char*)malloc(bufsize * sizeof(unsigned char));
     fread(buffer, 1, bufsize, fp);
-    /* close the file pointer */
+
     fclose(fp);
     
     unsigned int components  = (fourCC == FOURCC_DXT1) ? 3 : 4;
@@ -197,8 +288,7 @@ GLuint loadDDS(const char * imagepath){
     
     unsigned int blockSize = (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) ? 8 : 16;
     unsigned int offset = 0;
-    
-    /* load the mipmaps */
+
     for (unsigned int level = 0; level < mipMapCount && (width || height); ++level)
     {
         unsigned int size = ((width+3)/4)*((height+3)/4)*blockSize;
@@ -219,3 +309,4 @@ GLuint loadDDS(const char * imagepath){
     
     return textureID;
 }
+*/
