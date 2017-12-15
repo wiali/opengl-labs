@@ -1,6 +1,0 @@
-1:This
-2: is testing for fprintf...
-
-3: This is testing for fputs...
-
-

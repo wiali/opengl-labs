@@ -38,7 +38,7 @@ GLuint loadTexture(const char * filename);
 int main(int argc, char* argv[])
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode (/*GLUT_DOUBLE | */GLUT_RGB/* | GLUT_DEPTH*/);
+    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowSize(800, 800);
     glutCreateWindow("Lab1");
     
@@ -62,41 +62,8 @@ void display()
     glOrtho(-2.0, 2.0, -2.0, 2.0, 2.0, -2.0);
     
     handleSpecialKeys();
-//
-//    glPushMatrix();
-//
-//    glPushMatrix();
-////    drawAxis();
-//    glPopMatrix();
-//    //    doTask123(positionX, positionY, positionZ);
-////    doTask2();
     
-    glPushMatrix();
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_TEXTURE_GEN_S);
-    glEnable(GL_TEXTURE_GEN_T);
-    
-//    glBindTexture(GL_TEXTURE_2D, textureID);
-//    glColor3f(1.f, 0.f, 0.f);
-//    glutSolidTeapot(1.f);
-//    glutSolidOctahedron();
-//    glPushMatrix();
-    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-    
-//    glPopMatrix();
-//    gluSolidSphere(1.f, 8, 8);
-//    drawTorus();
-//    glutSolidOctahedron();
-    glutSolidSphere(1, 10, 10);
-//    glutSolidTorus(0.5f, 1.f, 10, 10);
-    
-    glEnable(GL_TEXTURE_GEN_S);
-    glEnable(GL_TEXTURE_GEN_T);
-    glDisable(GL_TEXTURE_2D);
-    glPopMatrix();
-
-    glPopMatrix();
+    doTask2();
     
     glFlush();
     glutSwapBuffers();
@@ -214,99 +181,4 @@ GLuint loadTexture(const char * filename)
 
 
 
-/*
-#define FOURCC_DXT1 0x31545844 // Equivalent to "DXT1" in ASCII
-#define FOURCC_DXT3 0x33545844 // Equivalent to "DXT3" in ASCII
-#define FOURCC_DXT5 0x35545844 // Equivalent to "DXT5" in ASCII
 
-GLuint loadDDS(const char * imagepath){
-    
-    unsigned char header[124];
-    
-    FILE *fp;
-    
-    
-    fp = fopen(imagepath, "rb");
-    if (fp == NULL){
-        //printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath); getchar();
-        throw std::invalid_argument("Wrong texture filename");
-        return 0;
-    }
-    
-
-    char filecode[4];
-    fread(filecode, 1, 4, fp);
-    if (strncmp(filecode, "DDS ", 4) != 0) {
-        fclose(fp);
-        return 0;
-    }
-    
-
-    fread(&header, 124, 1, fp);
-    
-    unsigned int height      = *(unsigned int*)&(header[8 ]);
-    unsigned int width         = *(unsigned int*)&(header[12]);
-    unsigned int linearSize     = *(unsigned int*)&(header[16]);
-    unsigned int mipMapCount = *(unsigned int*)&(header[24]);
-    unsigned int fourCC      = *(unsigned int*)&(header[80]);
-    
-    
-    unsigned char * buffer;
-    unsigned int bufsize;
-
-    bufsize = mipMapCount > 1 ? linearSize * 2 : linearSize;
-    buffer = (unsigned char*)malloc(bufsize * sizeof(unsigned char));
-    fread(buffer, 1, bufsize, fp);
-
-    fclose(fp);
-    
-    unsigned int components  = (fourCC == FOURCC_DXT1) ? 3 : 4;
-    unsigned int format;
-    switch(fourCC)
-    {
-        case FOURCC_DXT1:
-            format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-            break;
-        case FOURCC_DXT3:
-            format = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-            break;
-        case FOURCC_DXT5:
-            format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-            break;
-        default:
-            free(buffer);
-            return 0;
-    }
-    
-    // Create one OpenGL texture
-    GLuint textureID;
-    glGenTextures(1, &textureID);
-    
-    // "Bind" the newly created texture : all future texture functions will modify this texture
-    glBindTexture(GL_TEXTURE_2D, textureID);
-    glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-    
-    unsigned int blockSize = (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) ? 8 : 16;
-    unsigned int offset = 0;
-
-    for (unsigned int level = 0; level < mipMapCount && (width || height); ++level)
-    {
-        unsigned int size = ((width+3)/4)*((height+3)/4)*blockSize;
-        glCompressedTexImage2D(GL_TEXTURE_2D, level, format, width, height,
-                               0, size, buffer + offset);
-        
-        offset += size;
-        width  /= 2;
-        height /= 2;
-        
-        // Deal with Non-Power-Of-Two textures. This code is not included in the webpage to reduce clutter.
-        if(width < 1) width = 1;
-        if(height < 1) height = 1;
-        
-    }
-    
-    free(buffer);
-    
-    return textureID;
-}
-*/

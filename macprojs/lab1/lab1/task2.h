@@ -48,35 +48,38 @@ GLuint loadTexture(const char * filename);
 
 void doTask2()
 {
-    /*
-    glColor4f(0.1f, 0.5f, 0.3f, 0.5f);
     
-    init();
-    glPushMatrix ();
-    //    glRotatef(45.0, 0.0, 0.0, 1.0);
-    glBindTexture(GL_TEXTURE_1D, texName);
     
-    glutWireOctahedron();
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
     
-    //    glutWireTorus(0.5, 0.5, 10, 10);
-    //    glutSolidTorus(2, 2, 4, 5);
-//            glutSolidTeapot(1.0);
-    //    glutSolidOctahedron();
-    //    glutSolidSphere(2, 10, 10);
-    //    glutSolidTorus(0.1, 0.5, 10, 10);
-//    drawOctahedron();
-//    drawTorus();
+
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
     
-    glDisable(GL_TEXTURE_1D);
-    glPopMatrix ();
-     */
-//    glPushMatrix();
-//    glEnable(GL_TEXTURE_2D);
+    
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0.5, 0);
+    glutSolidOctahedron();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3f(1, 0, 0);
+    glRotatef(90, 1, 0, 0);
+    glutSolidTorus(0.25f, 1.f, 10, 10);
+    glPopMatrix();
+    
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+    
 //
-//    glutSolidTeapot(1.f);
-//
-//    glDisable(GL_TEXTURE_2D);
-//    glPopMatrix();
+    
+
     
 }
 
