@@ -5,6 +5,6 @@ textures - http://www.opengl-tutorial.org/ru/beginners-tutorials/tutorial-5-a-te
 # lab3
     -
 
-
+python -m SimpleHTTPServer
 
 # lab4

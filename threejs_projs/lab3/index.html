@@ -1,4 +1,195 @@
-<!DOCTYPE html>
+<!doctype html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Lab 3</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%
+    }
+  </style>
+</head>
+
+<body>
+  <script src="js/lib/three.min.js"></script>
+  <script src="js/lib/js/controls/OrbitControls.js"></script>
+  <script>
+    var camera, scene, renderer, controls;
+    var JSONLoader = new THREE.JSONLoader();
+    var textureLoader = new THREE.TextureLoader();
+
+    var targetObject;
+
+    var geometry, material;
+    var room, cylinder, teapot, torus;
+
+    var light;
+    var phase = 0,
+      lastTime = null;
+
+    var color = 0xffffff;
+
+    document.addEventListener("keydown", function(event) {
+      switch (event.keyCode) {
+        case 49:
+          color = 0xffffff;
+          break;
+        case 50:
+          color = 0x178EC9;
+          break;
+        case 51:
+          color = 0xFFCE42;
+          break;
+        case 52:
+          color = 0x19A15F;
+          break;
+      }
+    })
+
+    init();
+    animate();
+
+    function init() {
+
+      // Setting camera
+      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 3000);
+      camera.position.set(0, 0, 200);
+
+      // Creating scene
+      scene = new THREE.Scene();
+
+      // Creating room
+      textureLoader.load('img/wall.jpg', function(texture) {
+        textureLoader.load('img/wallBump.png', function(bumpTexture) {
+          geometry = new THREE.BoxBufferGeometry(100, 100, 100);
+          material = new THREE.MeshStandardMaterial({
+            map: texture,
+            bumpMap: bumpTexture,
+            side: THREE.BackSide
+          });
+          room = new THREE.Mesh(geometry, material);
+          room.castShadow = false;
+          room.receiveShadow = true;
+          scene.add(room);
+        });
+      });
+
+      // Creating cube
+      textureLoader.load('img/brick.jpg', function(texture) {
+        textureLoader.load('img/brickBump.jpg', function(bumpTexture) {
+          geometry = new THREE.BoxBufferGeometry(10, 10, 10);
+          material = new THREE.MeshStandardMaterial({
+            map: texture,
+            bumpMap: bumpTexture,
+            bumpScale: 0.5
+          });
+          cube = new THREE.Mesh(geometry, material);
+          cube.name = "cube";
+          cube.position.x = 0;
+          cube.position.y = -43.3;
+          cube.position.z = 10;
+          cube.castShadow = true;
+          cube.receiveShadow = true;
+          scene.add(cube);
+        });
+      });
+
+      // Creating sphere
+      textureLoader.load('img/glass.jpg', function(texture) {
+        geometry = new THREE.SphereBufferGeometry(15, 32, 32);
+        material = new THREE.MeshPhongMaterial({
+          map: texture,
+          transparent: true,
+          opacity: 0.8
+        });
+        sphere = new THREE.Mesh(geometry, material);
+        sphere.rotateY(Math.PI / 2);
+        sphere.rotateX(Math.PI / 4);
+        sphere.position.x = 0;
+        sphere.position.y = -35;
+        sphere.position.z = 10;
+        sphere.castShadow = false;
+        scene.add(sphere);
+      });
+
+      // Creating cone
+      textureLoader.load('img/brick.jpg', function(texture) {
+        textureLoader.load('img/brickBump.jpg', function(bumpTexture) {
+          geometry = new THREE.ConeBufferGeometry(15, 32, 32, 32);
+          material = new THREE.MeshPhongMaterial({
+            map: texture,
+            bumpMap: bumpTexture,
+            shininess: 100
+          });
+          cone = new THREE.Mesh(geometry, material);
+          cone.position.x = -30;
+          cone.position.y = -35;
+          cone.position.z = -30;
+          cone.castShadow = true;
+          cone.receiveShadow = true;
+          scene.add(cone);
+        });
+      });
+
+      // Creating ambient light
+      var ambientLight = new THREE.AmbientLight(0x404040);
+      scene.add(ambientLight);
+
+      // Creating target object for spotlight
+      targetObject = new THREE.Object3D();
+      targetObject.position.x = -30;
+      targetObject.position.y = -35;
+      targetObject.position.z = -30;
+      scene.add(targetObject);
+
+      // Creating spotlight
+      light = new THREE.SpotLight(0xffffff);
+      light.position.set(40, -20, -40);
+      light.castShadow = true
+      light.target = targetObject;
+      light.angle = Math.PI / 10;
+      scene.add(light);
+
+      // Initializing renderer
+      renderer = new THREE.WebGLRenderer({
+        antialias: true
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      document.body.appendChild(renderer.domElement);
+
+      // Initializing camera controls
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.target.set(0, 0, 0);
+      controls.maxDistance = 400;
+      controls.minDistance = 10;
+      controls.update();
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      render();
+    }
+
+    function render() {
+      light.color.set(color);
+      step = Math.min(100, Date.now() - lastTime) / 5000;
+      phase += step;
+
+      targetObject.position.x = -Math.sin(-phase * 0.5) * 40;
+      targetObject.position.z = -Math.cos(-phase * 0.5) * 40;
+      renderer.render(scene, camera);
+    }
+  </script>
+</body>
+
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
@@ -16,7 +207,7 @@
 <body>
   <canvas id="canvas"></canvas>
 </body>
-</html>
+</html> -->
 
 <!-- <!DOCTYPE html>
 <html>
