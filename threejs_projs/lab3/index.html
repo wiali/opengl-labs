@@ -62,7 +62,7 @@
 
       // Setting camera
       camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 3000);
-      camera.position.set(0, 0, 1000);
+      camera.position.set(1000, 0, 1000);
 
       // Creating scene
       scene = new THREE.Scene();
@@ -72,9 +72,9 @@
 
 
       // Creating room
-      textureLoader.load('img/wall.jpg', function(texture) {
-        textureLoader.load('img/wallBump.png', function(bumpTexture) {
-          geometry = new THREE.BoxBufferGeometry(300, 300, 300);
+      textureLoader.load('img/wood.jpg', function(texture) {
+        textureLoader.load('img/woodBump1.png', function(bumpTexture) {
+          geometry = new THREE.BoxBufferGeometry(500, 300, 300);
           material = new THREE.MeshStandardMaterial({
             map: texture,
             bumpMap: bumpTexture,
@@ -87,10 +87,10 @@
         });
       });
 
-      // // Creating cube
-      // textureLoader.load('img/brick.jpg', function(texture) {
+      // // Creating cube 2
+      // textureLoader.load('img/glass.jpg', function(texture) {
       //   textureLoader.load('img/brickBump.jpg', function(bumpTexture) {
-      //     geometry = new THREE.SphereBufferGeometry(40, 40, 40);
+      //     geometry = new THREE.SphereBufferGeometry(10, 10, 10);
       //     material = new THREE.MeshStandardMaterial({
       //       map: texture,
       //       bumpMap: bumpTexture,
@@ -102,7 +102,7 @@
       //     // cube.position.y = -43.3;
       //     // cube.position.z = 10;
       //     cube.castShadow = true;
-      //     cube.position.set(0, -35, 0);
+      //     cube.position.set(140, -120, 0);
       //     cube.receiveShadow = true;
       //     scene.add(cube);
       //   });
@@ -114,13 +114,15 @@
     	scene.add( mirrorSphereCamera );
     	var mirrorSphereMaterial = new THREE.MeshBasicMaterial( { envMap: mirrorSphereCamera.renderTarget } );
     	mirrorSphere = new THREE.Mesh( sphereGeom, mirrorSphereMaterial );
-    	mirrorSphere.position.set(0,-35,10);
+    	mirrorSphere.position.set(0,-120,0);
+      mirrorSphere.castShadow = true;
+      mirrorSphere.receiveShadow = true;
     	mirrorSphereCamera.position = mirrorSphere.position;
     	scene.add(mirrorSphere);
 
-      // Creating sphere
-      textureLoader.load('img/glass.jpg', function(texture) {
-        geometry = new THREE.BoxBufferGeometry(60, 60, 60);
+      // Creating cube
+      textureLoader.load('img/brick.jpg', function(texture) {
+        geometry = new THREE.BoxBufferGeometry(80, 80, 80);
         material = new THREE.MeshPhongMaterial({
           map: texture,
           transparent: true,
@@ -132,8 +134,9 @@
         // sphere.position.x = 0;
         // sphere.position.y = -35;
         // sphere.position.z = 10;
-        sphere.position.set(0,-35,10);
+        sphere.position.set(0,-120,0);
         sphere.castShadow = false;
+        sphere.receiveShadow = false;
         scene.add(sphere);
       });
 
@@ -162,15 +165,14 @@
 
       // Creating target object for spotlight
       targetObject = new THREE.Object3D();
-      targetObject.position.x = -30;
-      targetObject.position.y = -35;
-      targetObject.position.z = -30;
+      targetObject.position.set(70, -120, 0);
       scene.add(targetObject);
 
       // Creating spotlight
       light = new THREE.SpotLight(0xffffff);
-      light.position.set(40, -20, -40);
-      light.castShadow = true
+      light.position.set(180, -120, 0);
+      light.castShadow = true;
+      // light.receiveShadow = true;
       light.target = targetObject;
       light.angle = Math.PI / 10;
       scene.add(light);
@@ -187,7 +189,7 @@
       // Initializing camera controls
       controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.target.set(0, 0, 0);
-      controls.maxDistance = 400;
+      controls.maxDistance = 700;
       controls.minDistance = 10;
       controls.update();
     }
@@ -207,7 +209,7 @@
 	    mirrorSphereCamera.updateCubeMap( renderer, scene );
 	    mirrorSphere.visible = true;
       // targetObject.position.x = -Math.sin(-phase * 0.5) * 40;
-      // targetObject.position.z = -Math.cos(-phase * 0.5) * 40;
+      targetObject.position.z = -Math.cos(-phase * 0.5) * 40;
       renderer.render(scene, camera);
     }
   </script>
