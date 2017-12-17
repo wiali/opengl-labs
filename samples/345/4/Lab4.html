@@ -38,7 +38,7 @@
         var step = 0;
         var angle = 0;
         var iteration = 0;
-        
+
         init();
         animate();
 
@@ -65,11 +65,11 @@
             // Creating the scene
             scene = new THREE.Scene();
 			//scene.add(new THREE.AxisHelper(100));
-			
+
 			light = new THREE.PointLight( 0xFFFFFF, 1, 0 );
 			light.position.set( 0, 100, 0 );
 			scene.add( light );
-			
+
 			            // Creatin sphere
             <!-- loader.load('wall.jpg', function(texture) { -->
                 <!-- geometry = new THREE.SphereBufferGeometry(15, 32, 32); -->
@@ -83,7 +83,7 @@
                 <!-- sphere.castShadow = false; -->
                 <!-- scene.add(sphere); -->
             <!-- }); -->
-			
+
             // Creating the plane
             loader.load('sd.jpg', function (texture) {
                 texture.wrapS = THREE.RepeatWrapping;
@@ -102,7 +102,7 @@
 				plane.castShadow = true;
                 scene.add(plane);
             });
-            
+
             // Creating pivot
             pivot = new THREE.Object3D();
             pivot.add(new THREE.AxisHelper(50));
@@ -115,12 +115,12 @@
                 map: texture1
                 //wireframe: true
             });
-			
+
             icosahedron = new THREE.Mesh(geometry, material);
             icosahedron.castShadow = true;
 			icosahedron.recieveShadow = false;
             scene.add(icosahedron);
-			
+
 			// Creating sphere
 			var texture2 = new THREE.TextureLoader().load( 'index.jpg' );
             geometry2 = new THREE.SphereBufferGeometry(25, 20, 20);
@@ -128,7 +128,7 @@
                 map: texture2
                 //wireframe: true
             });
-			
+
             sphere = new THREE.Mesh(geometry2, material2);
             sphere.castShadow = true;
 			sphere.recieveShadow = false;
@@ -136,7 +136,7 @@
 			sphere.position.z = -70;
 			sphere.position.y = 25;
             scene.add(sphere);
-			
+
             THREE.SceneUtils.attach(icosahedron, scene, pivot);
             icosahedron.position.x = 30.353 ;
             icosahedron.position.y = 39.733;
@@ -177,7 +177,7 @@
         function render() {
 			angle += deltaAngle;
 			switch(step) {
-			
+
 
 				case 0:
 							//step = 20;
@@ -201,13 +201,13 @@
                         THREE.SceneUtils.attach(icosahedron, scene, pivot);
                         break;
                     }
-					
+
 					if (iteration == 2) {
                         if (angle <  toFaceAngle) {
                         pivot.rotation.z += deltaAngle;
 						} else {
 						angle = 0;
-						
+
                         pivot.updateMatrixWorld();
                         icosahedron.updateMatrixWorld();
                         THREE.SceneUtils.detach(icosahedron, pivot, scene);
@@ -223,9 +223,9 @@
                         //iteration += 1;
 						iteration += 1;
 						//step = 20;
-						}	
+						}
                     }
-					
+
 					if (iteration == 1) {
                         if (angle < toRibAngle) {
                         pivot.rotation.z += deltaAngle;
@@ -244,7 +244,7 @@
 						//step = 20;
 						}
 					}
-						
+
 						if (iteration == 0) {
 							if (angle < toRibAngle) {
 							pivot.rotation.z += deltaAngle;
@@ -267,13 +267,13 @@
                     break;
 
 					case 1:
-                    					
+
 					if (iteration == 2) {
                         if (angle <  toRibAngle) {
                         pivot.rotation.z += deltaAngle;
 						} else {
 						angle = 0;
-						
+
                         pivot.updateMatrixWorld();
                         icosahedron.updateMatrixWorld();
                         THREE.SceneUtils.detach(icosahedron, pivot, scene);
@@ -294,7 +294,7 @@
 						}
 						break;
                     }
-					
+
 					if (iteration == 1) {
                         if (angle < 2.15 * toFaceAngle) {
                         pivot.rotation.z += deltaAngle;
@@ -311,9 +311,9 @@
                         console.log('Step 0 Iter ' + iteration);
                         iteration += 1;
 						//step = 20;
-						}	
+						}
                     }
-					
+
 					if (iteration == 0) {
                         if (angle < toRibAngle) {
                         pivot.rotation.z += deltaAngle;
@@ -330,18 +330,18 @@
                         console.log('Step 0 Iter ' + iteration);
                         iteration += 1;
 						//step = 20;
-						}	
+						}
                     }
 					break;
-					
+
 					case 3:
-								
+
 					if (iteration == 3) {
                         if (angle <  toFaceAngle*1.14) {
                         pivot.rotation.z -= deltaAngle;
 						} else {
 						angle = 0;
-						
+
                         pivot.updateMatrixWorld();
                         icosahedron.updateMatrixWorld();
                         THREE.SceneUtils.detach(icosahedron, pivot, scene);
@@ -357,18 +357,18 @@
 						}
 						break;
                     }
-                    					
+
 					if (iteration == 2) {
                         if (angle <  toRibAngle) {
                         pivot.rotation.z -= deltaAngle;
 						} else {
 						angle = 0;
-						
+
                         pivot.updateMatrixWorld();
                         icosahedron.updateMatrixWorld();
                         THREE.SceneUtils.detach(icosahedron, pivot, scene);
                         pivot.rotation.z = 0;
-                        pivot.translateX(heightLength);	
+                        pivot.translateX(heightLength);
 
                         pivot.updateMatrixWorld();
                         icosahedron.updateMatrixWorld();
@@ -378,7 +378,7 @@
 						//step = 20;
 						}
                     }
-					
+
 					if (iteration == 1) {
                         if (angle < toRibAngle) {
                         pivot.rotation.z -= deltaAngle;
@@ -395,9 +395,9 @@
                         console.log('Step 0 Iter ' + iteration);
                         iteration += 1;
 						//step = 20;
-						}	
+						}
                     }
-					
+
 					if (iteration == 0) {
                         if (angle < toFaceAngle*1.28) {
                         pivot.rotation.z += deltaAngle;
@@ -415,12 +415,12 @@
                         console.log('Step 0 Iter ' + iteration);
                         iteration += 1;
 						//step = 20;
-						}	
+						}
                     }
 					break;
-					
+
 					case 4:
-					
+
 					if (iteration == 4) {
                         if (angle <  toFaceAngle*1.05) {
                         pivot.rotation.z += deltaAngle;
@@ -432,7 +432,7 @@
                         pivot.rotation.z = 0;
 						pivot.rotation.x = 0;
 						pivot.rotation.y = 0;
-						
+
 						pivot.position.set(icosahedron.geometry.vertices[0].x,
 						icosahedron.geometry.vertices[0].y,
 						icosahedron.geometry.vertices[0].z);
@@ -446,13 +446,13 @@
 						}
 						break;
                     }
-					
+
 					if (iteration == 3) {
                         if (angle <  toRibAngle * 1.03) {
                         pivot.rotation.x += deltaAngle;
 						} else {
 						angle = 0;
-						
+
                         pivot.updateMatrixWorld();
                         icosahedron.updateMatrixWorld();
                         THREE.SceneUtils.detach(icosahedron, pivot, scene);
@@ -473,13 +473,13 @@
 						}
 						break;
                     }
-                    					
+
 					if (iteration == 2) {
                         if (angle <  toRibAngle / 2.8) {
                         pivot.rotation.x += deltaAngle;
 						} else {
 						angle = 0;
-						
+
                         pivot.updateMatrixWorld();
                         icosahedron.updateMatrixWorld();
                         THREE.SceneUtils.detach(icosahedron, pivot, scene);
@@ -489,7 +489,7 @@
 							<!-- pivot.position.set(icosahedron.geometry.vertices[1].x, -->
 						<!-- icosahedron.geometry.vertices[1].y, -->
 						<!-- icosahedron.geometry.vertices[1].z); -->
-                        pivot.translateZ(heightLength);	
+                        pivot.translateZ(heightLength);
 
                         pivot.updateMatrixWorld();
                         icosahedron.updateMatrixWorld();
@@ -499,7 +499,7 @@
 						//step = 20;
 						}
                     }
-					
+
 					if (iteration == 1) {
                         if (angle < toFaceAngle) {
                         pivot.rotation.z += deltaAngle;
@@ -518,13 +518,13 @@
                         console.log('Step 0 Iter ' + iteration);
                         iteration += 1;
 						//step = 20;
-						}	
+						}
                     }
-					
+
 					if (iteration == 0) {
                         if (angle < toRibAngle) {
                         pivot.rotation.z += deltaAngle;
-						
+
 						} else {
 						angle = 0;
 						pivot.rotateX(-0.0098);
@@ -535,7 +535,7 @@
 						icosahedron.geometry.vertices[11].y,
 						icosahedron.geometry.vertices[11].z);
                         pivot.rotation.z = 0;
-						
+
 						//pivot.rotation.y = 0;
 						pivot.rotateY(-0.11);
 						//pivot.rotation.x = 0;
@@ -546,22 +546,22 @@
                         console.log('Step 0 Iter ' + iteration);
                         iteration += 1;
 						//step = 20;
-						}	
+						}
                     }
 					break;
-					
+
 				case 20: break;
-			
+
 			}
 
             updateVertices();
-            
+
             verticesLabels.forEach(function(vertex, index) {
                 vertex.position.set(icosahedron.geometry.vertices[index].x,
                 icosahedron.geometry.vertices[index].y,
                 icosahedron.geometry.vertices[index].z);
             });
-            
+
             renderer.render(scene, camera);
         }
     </script>

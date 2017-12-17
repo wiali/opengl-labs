@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Lab 3</title>
+  <title>Lab 4</title>
   <style>
     body {
       margin: 0;
@@ -16,182 +16,184 @@
 </head>
 
 <body>
-  <script src="js/lib/three.min.js"></script>
-
-  <script src="js/lib/js/controls/OrbitControls.js"></script>
+  <script src="three.min.js"></script>
+  <script src="OrbitControls.js"></script>
   <script>
+    'use strict';
+
     var camera, scene, renderer, controls;
-    var JSONLoader = new THREE.JSONLoader();
-    var textureLoader = new THREE.TextureLoader();
+    var loader = new THREE.TextureLoader();
+    var fontLoader = new THREE.FontLoader();
 
-    var targetObject;
+    var geometry, material, font;
+    var geometry2, material2, font2;
+    var plane, mycube, light, pivot, cube, sphere;
+    var verticesLabels = [];
 
-    var geometry, material;
-    var room, cylinder, teapot, torus;
+    var ribLength = 52.57,
+      heightLength = 45.52;
+    var toFaceAngle = 0.729727656226966363454796659813320695396505914047713690708 / 2;
+    var toRibAngle = 3.45 * Math.PI / 9;
+    var deltaAngle = Math.PI / 60;
 
-    var light;
-    var phase = 0,
-      lastTime = null;
-
-    var color = 0xffffff;
-
-    // for mirrow
-    var mirrorSphere, mirrorSphereCamera; // for mirror material
-
-    document.addEventListener("keydown", function(event) {
-      switch (event.keyCode) {
-        case 49:
-          color = 0xffffff;
-          break;
-        case 50:
-          color = 0x178EC9;
-          break;
-        case 51:
-          color = 0xFFCE42;
-          break;
-        case 52:
-          color = 0x19A15F;
-          break;
-      }
-    })
+    var step = 0;
+    var angle = 0;
+    var iteration = 0;
 
     init();
     animate();
 
+    // function updateVertices() {
+    //   pivot.updateMatrixWorld();
+    //   mycube.updateMatrixWorld();
+    //   THREE.SceneUtils.detach(mycube, pivot, scene);
+    //   mycube.geometry.applyMatrix(mycube.matrix);
+    //   pivot.matrix.identity();
+    //   mycube.position.set(0, 0, 0);
+    //   mycube.rotation.set(0, 0, 0);
+    //   mycube.scale.set(1, 1, 1);
+    //   pivot.updateMatrixWorld();
+    //   mycube.updateMatrixWorld();
+    //   THREE.SceneUtils.attach(mycube, scene, pivot);
+    // }
+
     function init() {
 
-      // Setting camera
+      // Setting the camera
       camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 3000);
-      camera.position.set(1000, 0, 1000);
+      camera.position.set(300, 300, 300);
 
-      // Creating scene
+      // Creating the scene
       scene = new THREE.Scene();
+      //scene.add(new THREE.AxisHelper(100));
 
-
-
-
-
-      // Creating room
-      textureLoader.load('img/wood.jpg', function(texture) {
-        textureLoader.load('img/woodBump1.png', function(bumpTexture) {
-          geometry = new THREE.BoxBufferGeometry(500, 300, 300);
-          material = new THREE.MeshStandardMaterial({
-            map: texture,
-            bumpMap: bumpTexture,
-            side: THREE.BackSide
-          });
-          room = new THREE.Mesh(geometry, material);
-          room.castShadow = false;
-          room.receiveShadow = true;
-          scene.add(room);
-        });
-      });
-
-      // // Creating cube 2
-      // textureLoader.load('img/glass.jpg', function(texture) {
-      //   textureLoader.load('img/brickBump.jpg', function(bumpTexture) {
-      //     geometry = new THREE.SphereBufferGeometry(10, 10, 10);
-      //     material = new THREE.MeshStandardMaterial({
-      //       map: texture,
-      //       bumpMap: bumpTexture,
-      //       bumpScale: 0.9,
-      //     });
-      //     cube = new THREE.Mesh(geometry, material);
-      //     // cube.name = "cube";
-      //     // cube.position.x = 0;
-      //     // cube.position.y = -43.3;
-      //     // cube.position.z = 10;
-      //     cube.castShadow = true;
-      //     cube.position.set(140, -120, 0);
-      //     cube.receiveShadow = true;
-      //     scene.add(cube);
-      //   });
-      // });
-
-      var sphereGeom =  new THREE.SphereGeometry( 30, 30, 30 ); // radius, segmentsWidth, segmentsHeight
-    	mirrorSphereCamera = new THREE.CubeCamera( 0.1, 5000, 512 );
-    	// mirrorCubeCamera.renderTarget.minFilter = THREE.LinearMipMapLinearFilter;
-    	scene.add( mirrorSphereCamera );
-    	var mirrorSphereMaterial = new THREE.MeshBasicMaterial( { envMap: mirrorSphereCamera.renderTarget } );
-    	mirrorSphere = new THREE.Mesh( sphereGeom, mirrorSphereMaterial );
-    	mirrorSphere.position.set(0,-120,0);
-      mirrorSphere.castShadow = true;
-      mirrorSphere.receiveShadow = true;
-    	mirrorSphereCamera.position = mirrorSphere.position;
-    	scene.add(mirrorSphere);
-
-      // Creating cube
-      textureLoader.load('img/brick.jpg', function(texture) {
-        geometry = new THREE.BoxBufferGeometry(80, 80, 80);
-        material = new THREE.MeshPhongMaterial({
-          map: texture,
-          transparent: true,
-          opacity: 0.5
-        });
-        sphere = new THREE.Mesh(geometry, material);
-        // sphere.rotateY(Math.PI / 2);
-        // sphere.rotateX(Math.PI / 4);
-        // sphere.position.x = 0;
-        // sphere.position.y = -35;
-        // sphere.position.z = 10;
-        sphere.position.set(0,-120,0);
-        sphere.castShadow = false;
-        sphere.receiveShadow = false;
-        scene.add(sphere);
-      });
-
-      // // Creating cone
-      // textureLoader.load('img/brick.jpg', function(texture) {
-      //   textureLoader.load('img/brickBump.jpg', function(bumpTexture) {
-      //     geometry = new THREE.ConeBufferGeometry(15, 32, 32, 32);
-      //     material = new THREE.MeshPhongMaterial({
-      //       map: texture,
-      //       bumpMap: bumpTexture,
-      //       shininess: 100
-      //     });
-      //     cone = new THREE.Mesh(geometry, material);
-      //     cone.position.x = -30;
-      //     cone.position.y = -35;
-      //     cone.position.z = -30;
-      //     cone.castShadow = true;
-      //     cone.receiveShadow = true;
-      //     scene.add(cone);
-      //   });
-      // });
-
-      // Creating ambient light
-      var ambientLight = new THREE.AmbientLight(0xffffff);
-      scene.add(ambientLight);
-
-      // Creating target object for spotlight
-      targetObject = new THREE.Object3D();
-      targetObject.position.set(70, -120, 0);
-      scene.add(targetObject);
-
-      // Creating spotlight
-      light = new THREE.SpotLight(0xffffff);
-      light.position.set(180, -120, 0);
-      light.castShadow = true;
-      // light.receiveShadow = true;
-      light.target = targetObject;
-      light.angle = Math.PI / 10;
+      light = new THREE.PointLight(0xFFFFFF, 1, 0);
+      light.position.set(0, 100, 0);
       scene.add(light);
+
+      // Creating the plane
+      loader.load('sd.jpg', function(texture) {
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(4, 4);
+        geometry = new THREE.PlaneGeometry(1024, 1024);
+        material = new THREE.MeshPhongMaterial({
+          color: 0x404040,
+          map: texture
+          //transparent: true,
+          //opacity: 0.5
+        });
+        plane = new THREE.Mesh(geometry, material);
+        plane.rotation.x = -Math.PI / 2;
+        plane.receiveShadow = true;
+        plane.castShadow = true;
+        scene.add(plane);
+      });
+
+      // Creating pivot
+      pivot = new THREE.Object3D();
+      pivot.add(new THREE.AxisHelper(50));
+      scene.add(pivot);
+
+      // Creating mycube
+      var texture1 = new THREE.TextureLoader().load('icos1.jpg');
+      geometry = new THREE.BoxGeometry(50, 50, 50);
+      material = new THREE.MeshPhongMaterial({
+        map: texture1
+        //wireframe: true
+      });
+
+      mycube = new THREE.Mesh(geometry, material);
+      mycube.castShadow = true;
+      mycube.recieveShadow = false;
+      scene.add(mycube);
+
+
+      // look here
+      {
+      // THREE.SceneUtils.attach(mycube, scene, pivot);
+      mycube.position.set(25, 25, 0);
+      // mycube.position.z = 39.733;
+      // mycube.rotation.x = Math.PI / 2;
+      // mycube.rotation.y = toFaceAngle;
+
+      // pivot.updateMatrixWorld();
+      mycube.updateMatrixWorld();
+      THREE.SceneUtils.detach(mycube, pivot, scene);
+      mycube.geometry.applyMatrix(mycube.matrix);
+      // pivot.matrix.identity();
+      mycube.position.set(0, 0, 0);
+      // mycube.rotation.set(0, 0, 0);
+      // mycube.scale.set(1, 1, 1);
+      // pivot.updateMatrixWorld();
+      // mycube.updateMatrixWorld();
+      // THREE.SceneUtils.attach(mycube, scene, pivot);
+      }
+      // angle = 0;
+      // mycube.position.x = 30.353;
+      // mycube.position.y = 39.733;
+      // pivot.updateMatrixWorld();
+      // mycube.updateMatrixWorld();
+      // THREE.SceneUtils.detach(mycube, pivot, scene);
+      // pivot.rotation.z = 0;
+      // pivot.translateZ(-ribLength / 2);
+      // //pivot.rotateY(-Math.PI / 2);
+      // pivot.updateMatrixWorld();
+      // mycube.updateMatrixWorld();
+      // THREE.SceneUtils.attach(mycube, scene, pivot);
+
+
+
+
+
+      // updateVertices();
+
+      // fontLoader.load('./helvetiker_regular.typeface.json', function(font) {
+      //   // mycube.geometry.vertices.forEach(function(vertex, index) {
+      //   //   geometry = new THREE.TextGeometry(index, {
+      //   //     font: font,
+      //   //     size: 8,
+      //   //     height: 2
+      //   //   });
+      //     material = new THREE.MeshBasicMaterial({
+      //       color: 0x0000ff,
+      //       transparent: true,
+      //       opacity: 0
+      //     });
+      //     var text = new THREE.Mesh(geometry, material);
+      //     text.position.set(vertex.x, vertex.y, vertex.z);
+      //     //scene.add(text);
+      //     //verticesLabels.push(text);
+      //   });
+      // });
 
       // Initializing renderer
       renderer = new THREE.WebGLRenderer({
         antialias: true
       });
       renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      //renderer.shadowMap.enabled = true;
+      //renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       document.body.appendChild(renderer.domElement);
 
       // Initializing camera controls
       controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.target.set(0, 0, 0);
-      controls.maxDistance = 700;
-      controls.minDistance = 10;
       controls.update();
+
+
+      // pivot.updateMatrixWorld();
+      // mycube.updateMatrixWorld();
+      // THREE.SceneUtils.detach(mycube, pivot, scene);
+      // mycube.geometry.applyMatrix(mycube.matrix);
+      // pivot.matrix.identity();
+      // mycube.position.set(0, 0, 0);
+      // mycube.rotation.set(0, 0, 0);
+      // mycube.scale.set(1, 1, 1);
+      // pivot.updateMatrixWorld();
+      // mycube.updateMatrixWorld();
+      // THREE.SceneUtils.attach(mycube, scene, pivot);
+      // mycube.position.y = 25;
+      angle = 3.14 / 2;
     }
 
     function animate() {
@@ -200,103 +202,397 @@
     }
 
     function render() {
-      light.color.set(color);
-      step = Math.min(100, Date.now() - lastTime) / 5000;
-      phase += step;
+      if (mycube.rotation.z  < 3.14 / 2) {
+        // angle += deltaAngle;
+        mycube.rotation.z += deltaAngle;
+      }
+      /*
+      switch (step) {
+
+        case 0:
+          //step = 20;
+          //break;
+          if (iteration == 3) {
+            angle = 0;
+            iteration = 0;
+            step = 1;
+            pivot.rotation.z = 0;
+            //pivot.rotation.x = 0;
+            pivot.updateMatrixWorld();
+            mycube.updateMatrixWorld();
+            THREE.SceneUtils.detach(mycube, pivot, scene);
+            pivot.rotateY(-Math.PI / 2);
+            pivot.position.set(mycube.geometry.vertices[9].x,
+              mycube.geometry.vertices[9].y,
+              mycube.geometry.vertices[9].z);
+            //pivot.rotation.set(0, -Math.PI / 3, 0);
+            pivot.updateMatrixWorld();
+            mycube.updateMatrixWorld();
+            THREE.SceneUtils.attach(mycube, scene, pivot);
+            break;
+          }
+
+          if (iteration == 2) {
+            if (angle < toFaceAngle) {
+              pivot.rotation.z += deltaAngle;
+            } else {
+              angle = 0;
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.translateZ(-ribLength / 2);
+              //pivot.rotateY(-Math.PI / 2);
 
 
-      mirrorSphere.visible = false;
-	    mirrorSphereCamera.updateCubeMap( renderer, scene );
-	    mirrorSphere.visible = true;
-      // targetObject.position.x = -Math.sin(-phase * 0.5) * 40;
-      targetObject.position.z = -Math.cos(-phase * 0.5) * 40;
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              //iteration += 1;
+              iteration += 1;
+              //step = 20;
+            }
+          }
+
+          if (iteration == 1) {
+            if (angle < toRibAngle) {
+              pivot.rotation.z += deltaAngle;
+            } else {
+              angle = 0;
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.translateX(-heightLength);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+          }
+
+          if (iteration == 0) {
+            if (angle < toRibAngle) {
+              pivot.rotation.z += deltaAngle;
+            } else {
+              angle = 0;
+              pivot.position.y = 0;
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.translateX(-ribLength);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+          }
+          break;
+        case 1:
+
+          if (iteration == 2) {
+            if (angle < toRibAngle) {
+              pivot.rotation.z += deltaAngle;
+            } else {
+              angle = 0;
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.position.set(mycube.geometry.vertices[7].x,
+                mycube.geometry.vertices[7].y,
+                mycube.geometry.vertices[7].z);
+              //pivot.translateZ(-heightLength/2);
+              pivot.rotateY(-Math.PI / 2);
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              //iteration += 1;
+              iteration = 0;
+              step = 3;
+            }
+            break;
+          }
+
+          if (iteration == 1) {
+            if (angle < 2.15 * toFaceAngle) {
+              pivot.rotation.z += deltaAngle;
+            } else {
+              angle = 0;
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.translateX(-heightLength);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+          }
+
+          if (iteration == 0) {
+            if (angle < toRibAngle) {
+              pivot.rotation.z += deltaAngle;
+            } else {
+              angle = 0;
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.translateX(-heightLength);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+          }
+          break;
+
+        case 3:
+
+          if (iteration == 3) {
+            if (angle < toFaceAngle * 1.14) {
+              pivot.rotation.z -= deltaAngle;
+            } else {
+              angle = 0;
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.rotateY(Math.PI / 2);
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration = 0;
+              step = 4;
+            }
+            break;
+          }
+
+          if (iteration == 2) {
+            if (angle < toRibAngle) {
+              pivot.rotation.z -= deltaAngle;
+            } else {
+              angle = 0;
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.translateX(heightLength);
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+          }
+
+          if (iteration == 1) {
+            if (angle < toRibAngle) {
+              pivot.rotation.z -= deltaAngle;
+            } else {
+              angle = 0;
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.translateX(ribLength);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+          }
+
+          if (iteration == 0) {
+            if (angle < toFaceAngle * 1.28) {
+              pivot.rotation.z += deltaAngle;
+            } else {
+              angle = 0;
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.rotation.x = 0;
+              pivot.translateX(heightLength);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+          }
+          break;
+
+        case 4:
+
+          if (iteration == 4) {
+            if (angle < toFaceAngle * 1.05) {
+              pivot.rotation.z += deltaAngle;
+            } else {
+              angle = 0;
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.rotation.x = 0;
+              pivot.rotation.y = 0;
+
+              pivot.position.set(mycube.geometry.vertices[0].x,
+                mycube.geometry.vertices[0].y,
+                mycube.geometry.vertices[0].z);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+
+              iteration = 0;
+              step = 0;
+            }
+            break;
+          }
+
+          if (iteration == 3) {
+            if (angle < toRibAngle * 1.03) {
+              pivot.rotation.x += deltaAngle;
+            } else {
+              angle = 0;
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.rotation.x = 0;
+              pivot.rotation.y = 0;
+              pivot.position.set(mycube.geometry.vertices[7].x,
+                mycube.geometry.vertices[7].y,
+                mycube.geometry.vertices[7].z);
+              //pivot.rotateY(Math.PI / 2);
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+            break;
+          }
+
+          if (iteration == 2) {
+            if (angle < toRibAngle / 2.8) {
+              pivot.rotation.x += deltaAngle;
+            } else {
+              angle = 0;
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.rotation.x = 0;
+              pivot.rotation.y = 0;
+              <!-- pivot.position.set(mycube.geometry.vertices[1].x, -->
+              <!-- mycube.geometry.vertices[1].y, -->
+              <!-- mycube.geometry.vertices[1].z); -->
+              pivot.translateZ(heightLength);
+
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+          }
+
+          if (iteration == 1) {
+            if (angle < toFaceAngle) {
+              pivot.rotation.z += deltaAngle;
+            } else {
+              angle = 0;
+              pivot.rotateX(0.035);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.rotation.z = 0;
+              pivot.rotation.y = 0;
+              //pivot.translateX(-heightLength);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+          }
+
+          if (iteration == 0) {
+            if (angle < toRibAngle) {
+              pivot.rotation.z += deltaAngle;
+
+            } else {
+              angle = 0;
+              pivot.rotateX(-0.0098);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.detach(mycube, pivot, scene);
+              pivot.position.set(mycube.geometry.vertices[11].x,
+                mycube.geometry.vertices[11].y,
+                mycube.geometry.vertices[11].z);
+              pivot.rotation.z = 0;
+
+              //pivot.rotation.y = 0;
+              pivot.rotateY(-0.11);
+              //pivot.rotation.x = 0;
+              //pivot.translateX(-heightLength);
+              pivot.updateMatrixWorld();
+              mycube.updateMatrixWorld();
+              THREE.SceneUtils.attach(mycube, scene, pivot);
+              console.log('Step 0 Iter ' + iteration);
+              iteration += 1;
+              //step = 20;
+            }
+          }
+          break;
+
+        case 20:
+          break;
+
+      }
+      */
+      // updateVertices();
+      //
+      // verticesLabels.forEach(function(vertex, index) {
+      //   vertex.position.set(mycube.geometry.vertices[index].x,
+      //     mycube.geometry.vertices[index].y,
+      //     mycube.geometry.vertices[index].z);
+      // });
+
       renderer.render(scene, camera);
     }
   </script>
 </body>
-
-<!-- <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <title>hello world</title>
-  <link rel="stylesheet" href="css/styles.css" />
-
-  <script src="js/lib/three.min.js"></script>
-  <script src="js/lib/dat.gui.min.js"></script>
-  <script src="js/script.js"></script>
-  <script>
-
-  </script>
-</head>
-
-<body>
-  <canvas id="canvas"></canvas>
-</body>
-</html> -->
-
-<!-- <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>JS Bin</title>
-</head>
-<body style="background:#fff;">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js"></script>
-<canvas id="canvas"></canvas>
-<script id="jsbin-javascript">
-var width = window.innerWidth, height = window.innerHeight / 2;
-var size = 256;
-var canvas = document.getElementById('canvas'),
-    ctx = canvas.getContext('2d');
-
-var camera, scene, renderer, geometry, texture, mesh;
-
-function changeCanvas() {
-  ctx.font = '20pt Arial';
-  ctx.fillStyle = 'red';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = 'white';
-  ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
-  ctx.fillStyle = 'black';
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(new Date().getTime(), canvas.width / 2, canvas.height / 2);
-}
-
-function init() {
-  renderer = new THREE.WebGLRenderer();
-  renderer.setSize(width, height);
-  document.body.appendChild(renderer.domElement);
-
-  scene = new THREE.Scene();
-
-  camera = new THREE.PerspectiveCamera(70, width / height, 1, 1000);
-  camera.position.z = 500;
-  scene.add(camera);
-
-  var loader = new THREE.TextureLoader();
-
-  texture = new THREE.Texture(canvas);
-  var material = new THREE.MeshBasicMaterial({ map: texture });
-  geometry = new THREE.BoxGeometry( 200, 200, 200 );
-  mesh = new THREE.Mesh( geometry, material );
-  scene.add( mesh );
-
-  canvas.width = canvas.height = size;
-}
-
-function animate() {
-  requestAnimationFrame(animate);
-
-  changeCanvas();
-  texture.needsUpdate = true;
-  mesh.rotation.y += 0.01;
-  renderer.render(scene, camera);
-}
-
-init();
-animate();
-</script>
-</body>
-</html> -->
