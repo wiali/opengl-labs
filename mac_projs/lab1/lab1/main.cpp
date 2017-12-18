@@ -25,6 +25,9 @@ static float rotationY = 0.f;
 static float rotationZ = 0.f;
 static const float dPosition = 0.1f;
 static const float dRotation = 5.f;
+static float torusParam = 0.4;
+static float torusStep = 0.1;
+
 
 static GLuint textureID = 0;
 
@@ -34,6 +37,7 @@ void drawAxis();
 void handleSpecialKeys();
 //GLuint loadDDS(const char * imagepath);
 GLuint loadTexture(const char * filename);
+
 
 int main(int argc, char* argv[])
 {
@@ -63,7 +67,9 @@ void display()
     
     handleSpecialKeys();
     
-    doTask2();
+//    doTask2();
+    drawTorus3(0.2, torusParam, 10, 10);
+    
     
     glFlush();
     glutSwapBuffers();
@@ -91,9 +97,9 @@ void specialKeys(int key, int x, int y)
     else if (key == GLUT_KEY_F2)
         rotationZ -= dRotation;
     else if (key == GLUT_KEY_F3)
-        positionX += dPosition;
+        torusParam += torusStep;
     else if (key == GLUT_KEY_F4)
-        positionY += dPosition;
+        torusParam -= torusStep;
     
     glutPostRedisplay();
 }
